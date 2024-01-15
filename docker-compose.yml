@@ -1,0 +1,28 @@
+version: "3.3"
+
+volumes:
+    cache-data:
+        driver: local
+
+services:
+    cache:
+        image: redis:latest
+        restart: always
+        ports:
+            - "6380:6379"
+        command: redis-server --save 120 250 --loglevel warning
+        volumes:
+            - cache-data:/data
+
+    algorithm:
+        container_name: algorithm
+        build: .
+        volumes:
+            - .:/app
+        restart: always
+        ports:
+            - "5757:5757"
+        depends_on:
+            - cache
+        links:
+            - cache
