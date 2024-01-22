@@ -2,28 +2,23 @@ import json
 import os
 from time import time
 import requests
-from src.entities.Address.Address import Address
-from src.entities.Location.Location import Location
+from src.entities.location import Location
 from src.utils.cache_utility import CacheUtility
 
 
-def calculate_multiple_locations_with_here(start_location: Location, intermediate_locations: list[Location], end_location: Location):
+def calculate_locations_with_here(start_location: Location, end_location: Location):
     start_time = time()
 
     api_key = "KHKPpYn2p2aNvLQwUOA1TwbTRJa6n-ntaitcRBkCwag"
-    intermediate_points_url = ""
-    for intermediate_point in intermediate_locations:
-        intermediate_points_url += "&via={},{}".format(
-            intermediate_point.latitude, intermediate_point.longitude)
 
-    url = "https://router.hereapi.com/v8/routes?origin={},{}&transportMode=car&destination={},{}{}&return=summary,polyline&apiKey={}".format(
-        start_location.latitude, start_location.longitude, end_location.latitude, end_location.longitude, intermediate_points_url, api_key)
+    url = "https://router.hereapi.com/v8/routes?origin={},{}&transportMode=truck&destination={},{}&return=summary,polyline,turnbyturnactions,elevation&apiKey={}".format(
+        start_location.lat, start_location.lon, end_location.lat, end_location.lon, api_key)
 
     cache = CacheUtility.read_cache(url, "here")
     if cache:
         return cache
 
-    print("HERE PETITION")
+    print("HERE: {} -> {}".format(start_location, end_location))
 
     response = requests.get(url)
     data = response.json()
@@ -31,23 +26,19 @@ def calculate_multiple_locations_with_here(start_location: Location, intermediat
     CacheUtility.write_cache(url, data, "here")
 
     end_time = time()
-    print("HERE PETITION TIME: {}".format(end_time - start_time))
+    print("HERE: {} seconds".format(end_time - start_time))
+        
+    turn_by_turn_actions = data['routes'][0]['sections'][0]['turnByTurnActions']
+    max_turn_angle = 0
+    for turn_by_turn_action in turn_by_turn_actions:
+        if 'turnAngle' in turn_by_turn_action:
+            turn_angle = abs(turn_by_turn_action['turnAngle'])
+            if turn_angle > max_turn_angle:
+                max_turn_angle = turn_angle
+    print("HERE: Max turn angle: {}".format(max_turn_angle))
 
     return data
 
-
-def calculate_route_from_addresses_with_here(delegation, addresses):
-    start_location = delegation
-    end_location = delegation
-    intermediate_locations = []
-    for address in addresses:
-        intermediate_locations.append(address)
-
-    route = calculate_multiple_locations_with_here(
-        start_location, intermediate_locations, end_location)
-    if ("notices" in route and len(route["notices"]) > 0):
-        raise Exception(route["notices"][0]["title"])
-    return route
 
 
 def calculate_time_on_road_from_here_route(result):

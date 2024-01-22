@@ -18,16 +18,22 @@ class CacheUtility:
         if type == "routes":
             key = json.dumps(key)
 
-        here_cache.set(key, pickle.dumps(value), ex=expiration_time)
+        try:
+            here_cache.set(key, pickle.dumps(value), ex=expiration_time)
+        except:
+            print("Error writing cache")
 
     @staticmethod
     def read_cache(key, type):
-        if type == "routes":
-            key = json.dumps(key)
+        try:
+            if type == "routes":
+                key = json.dumps(key)
 
-        result = here_cache.get(key)
-        here_cache.expire(key, expiration_time)
-        if result:
-            return pickle.loads(result)
+            result = here_cache.get(key)
+            here_cache.expire(key, expiration_time)
+            if result:
+                return pickle.loads(result)
+        except:
+            return None
 
         return None

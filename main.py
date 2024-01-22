@@ -63,15 +63,15 @@ if __name__ == '__main__':
         "origin": {
             "id": "1",
             "name": "Origin",
-            "lat": 41.3851,
-            "lon": 2.1734,
+            "lat": 43.3695162,
+            "lon": -5.8692574,
             "country": "ES"
         },
         "destination": {
             "id": "2",
             "name": "Destination",
-            "lat": 41.3851,
-            "lon": 2.1734,
+            "lat": 42.6036354,
+            "lon": -5.5979909,
             "country": "ES"
         }
     })

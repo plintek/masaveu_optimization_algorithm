@@ -1,5 +1,5 @@
-from .filters.national_international import national_international
-from .filters.vehicle_expirations import vehicle_expirations
+from .filter_functions.national_international import national_international
+from .filter_functions.vehicle_expirations import vehicle_expirations
 
 class Filter:
     def __init__(self, name, func):
@@ -24,7 +24,11 @@ def filter_vehicles(order, vehicles, origin, destination):
 
     filtered_vehicles = []
     for vehicle in vehicles:
-        if all(filter(order=order, vehicle=vehicle, origin=origin, destination=destination) for filter in filters):
+        for filter in filters:
+            if not filter(order=order, vehicle=vehicle, origin=origin, destination=destination):
+                print(f"DEUBG: El vehículo {vehicle} no cumple con el filtro {filter}")
+                break
+        else:
             filtered_vehicles.append(vehicle)
 
     return filtered_vehicles

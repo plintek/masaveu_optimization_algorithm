@@ -16,11 +16,13 @@ class Vehicle:
                 value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
             setattr(self, key, value)
 
+        self.score = 0
+
     def __str__(self):
         return f'{self.licensePlate}'
 
     def __repr__(self):
-        return f'{self.licensePlate}'
+        return f'{self.licensePlate}: {self.score} points'
 
     @staticmethod
     def from_json(vehicle):
@@ -43,7 +45,17 @@ class Vehicle:
     def can_travel_national(self):
         return True
 
-def check_expirations(self, date):
-    attributes_to_check = [self.cardExpiration, self.permissionExpiration, self.itvExpiration, self.insuranceExpiration, self.extinguisherExpiration, self.wasteExpiration, self.pressureExpiration, self.compressorExpiration, self.suspensionExpiration, self.tachographExpiration]
-    
-    return all(expiration is None or date < expiration for expiration in attributes_to_check)
+    def check_expirations(self, date):
+        attributes_to_check = ['cardExpiration', 'permissionExpiration', 'itvExpiration', 'insuranceExpiration', 'extinguisherExpiration', 'wasteExpiration', 'pressureExpiration', 'compressorExpiration', 'suspensionExpiration', 'tachographExpiration']
+        
+        is_valid = True
+        for attribute in attributes_to_check:
+            expiration = getattr(self, attribute)
+            if expiration is not None and date >= expiration:
+                is_valid = False
+                print(f"DEUBG: {attribute} del vehiculo {self} ha expirado")
+
+        return is_valid
+
+    def add_score(self, score):
+        self.score += score

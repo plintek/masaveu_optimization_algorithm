@@ -1,9 +1,11 @@
 from .container import Container
+from datetime import datetime
+
 class Order:
     def __init__(self, id, order_number, date, quantity, container):
         self.id = id
         self.order_number = order_number
-        self.date = date
+        self.date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
         self.quantity = quantity
         self.container = Container.from_json(container)
 
@@ -22,7 +24,7 @@ class Order:
         return Order.from_json({
             "id": "89F07B0D-E424-4FC4-9135-FFE85FAC5AAF",
             "order_number": 1,
-            "date": "2020-01-01 00:00:00",
+            "date": "2024-01-01 00:00:00",
             "quantity": 25000,
             "container": {
                 "sacos": 1000,
