@@ -4,12 +4,26 @@ from src.optimization import execute_optimization
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
+def check_post_data(post_data):
+    fields = ['order_id', 'origin', 'destination']
+    if not all(field in post_data for field in fields):
+        raise ValueError("Missing required fields in post data")
+
+    fields = ['lat', 'lon', 'id', 'name']
+    if not all(field in post_data['origin'] for field in fields):
+        raise ValueError("Missing required fields in origin")
+
+    if not all(field in post_data['destination'] for field in fields):
+        raise ValueError("Missing required fields in destination")
+
 def execute_post(post_data):
     try:
         # Start timer
         start_time = time.time()
         
-        execute_optimization()
+        check_post_data(post_data)
+
+        execute_optimization(post_data)
 
         # End timer
         end_time = time.time()
@@ -42,6 +56,25 @@ if __name__ == '__main__':
 
     my_server = HTTPServer((host_name, server_port), Server)
     print(time.asctime(), "Server Starts - %s:%s" % (host_name, server_port))
+
+    # example
+    execute_optimization({
+        "order_id": "89F07B0D-E424-4FC4-9135-FFE85FAC5AAF",
+        "origin": {
+            "id": "1",
+            "name": "Origin",
+            "lat": 41.3851,
+            "lon": 2.1734,
+            "country": "ES"
+        },
+        "destination": {
+            "id": "2",
+            "name": "Destination",
+            "lat": 41.3851,
+            "lon": 2.1734,
+            "country": "ES"
+        }
+    })
 
     try:
         my_server.serve_forever()
