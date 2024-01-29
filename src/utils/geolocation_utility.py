@@ -2,7 +2,6 @@ import requests
 
 
 class GeolocationUtility:
-
     def geolocate(address):
         try:
             apiKey = "KHKPpYn2p2aNvLQwUOA1TwbTRJa6n-ntaitcRBkCwag"

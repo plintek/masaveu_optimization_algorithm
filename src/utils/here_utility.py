@@ -35,6 +35,7 @@ def calculate_locations_with_here(start_location: Location, end_location: Locati
             turn_angle = abs(turn_by_turn_action['turnAngle'])
             if turn_angle > max_turn_angle:
                 max_turn_angle = turn_angle
+    
     print("HERE: Max turn angle: {}".format(max_turn_angle))
 
     return data

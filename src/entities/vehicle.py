@@ -46,6 +46,9 @@ class Vehicle:
         return True
 
     def check_expirations(self, date):
+        if self.active == False:
+            return False
+
         attributes_to_check = ['cardExpiration', 'permissionExpiration', 'itvExpiration', 'insuranceExpiration', 'extinguisherExpiration', 'wasteExpiration', 'pressureExpiration', 'compressorExpiration', 'suspensionExpiration', 'tachographExpiration']
         
         is_valid = True

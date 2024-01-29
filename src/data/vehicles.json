@@ -12,20 +12,19 @@
         "pressureExpiration": null,
         "compressorExpiration": null,
         "suspensionExpiration": null,
-        "active": "N",
-        "company": "CC1CCF7E-D6EC-4A7F-942C-07FD85C960FC",
-        "cardType": "0C9BBCF0-1B14-498D-A45F-4B896F13A1B4",
-        "truckType": "9B0A28EE-D513-4951-8385-887C43ECF4F5",
         "tachographExpiration": "2024-09-12 00:00:00",
-        "loadCapacity": 8,
-        "authorizedWeight": 0,
-        "delegation": "GALICIA",
+        "active": true,
         "mileage": 140201,
         "hours": 9534,
         "grossVehicleWeight": 0,
         "tareWeight": 0,
-        "operationalStatus": 0,
-        "vehicleClassification": null,
-        "usualLoadingPoint": "B878FEA2-648D-49C7-899C-0BD51859A93B"
+        "truckTypeName": "trailer",
+        "assignedPex": 1,
+        "geolocation": {
+            "lat": 43.362343,
+            "lon": -8.41154
+        },
+        "lastTrimesterOrderCount": 0,
+        "lastTrimesterMileageCount": 0
     }
 ]

@@ -58,23 +58,8 @@ if __name__ == '__main__':
     print(time.asctime(), "Server Starts - %s:%s" % (host_name, server_port))
 
     # example
-    execute_optimization({
-        "order_id": "89F07B0D-E424-4FC4-9135-FFE85FAC5AAF",
-        "origin": {
-            "id": "1",
-            "name": "Origin",
-            "lat": 43.3695162,
-            "lon": -5.8692574,
-            "country": "ES"
-        },
-        "destination": {
-            "id": "2",
-            "name": "Destination",
-            "lat": 42.6036354,
-            "lon": -5.5979909,
-            "country": "ES"
-        }
-    })
+    with open(f'src/data/input.json', 'r') as file:
+        execute_optimization(json.load(file))
 
     try:
         my_server.serve_forever()

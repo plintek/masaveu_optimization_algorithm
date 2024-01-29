@@ -2,6 +2,7 @@
     {
         "id": "89F07B0D-E424-4FC4-9135-FFE85FAC5AAF",
         "order_number": 1,
+        "status": "pending",
         "date": "2024-01-01 00:00:00",
         "quantity": 25000,
         "container": {
@@ -11,6 +12,92 @@
             "fundas": 0,
             "laminas": 0,
             "bigBags": 0
+        },
+        "truckType": "trailer",
+        "material": "CEMENTO GRIS",
+        "origin": {
+            "id": 1,
+            "name": "Origin",
+            "lat": 43.3695162,
+            "lon": -5.8692574,
+            "country": "ES",
+            "maxHeight": 310
+        },
+        "destination": {
+            "id": 2,
+            "name": "Destination",
+            "lat": 42.6036354,
+            "lon": -5.5979909,
+            "country": "ES",
+            "maxHeight": 310
+        }
+    },
+    {
+        "id": "89F07B0D-E424-4FC4-9135-FFE85FAC5AAF",
+        "order_number": 1,
+        "assignedTruck": "1234GFD",
+        "status": "completed",
+        "date": "2024-01-01 00:00:00",
+        "quantity": 25000,
+        "container": {
+            "sacos": 1000,
+            "pales": 1,
+            "fardos": 0,
+            "fundas": 0,
+            "laminas": 0,
+            "bigBags": 0
+        },
+        "truckType": "cuba",
+        "material": "CEMENTO BLANCO",
+        "origin": {
+            "id": 1,
+            "name": "Origin",
+            "lat": 43.3695162,
+            "lon": -5.8692574,
+            "country": "ES",
+            "maxHeight": 310
+        },
+        "destination": {
+            "id": 2,
+            "name": "Destination",
+            "lat": 42.6036354,
+            "lon": -5.5979909,
+            "country": "ES",
+            "maxHeight": 310
+        }
+    },
+    {
+        "id": "89F07B0D-E424-4FC4-9135-FFE85FAC5AAF",
+        "order_number": 1,
+        "status": "completed",
+        "assignedTruck": "1234GFD",
+        "date": "2024-01-01 00:00:00",
+        "quantity": 25000,
+        "container": {
+            "sacos": 1000,
+            "pales": 1,
+            "fardos": 0,
+            "fundas": 0,
+            "laminas": 0,
+            "bigBags": 0
+        },
+        "truckType": "bañera",
+        "material": "CEMENTO BLANCO",
+        "origin": {
+            "id": 1,
+            "name": "Origin",
+            "lat": 43.3695162,
+            "lon": -5.8692574,
+            "country": "ES",
+            "maxHeight": 310
+        },
+        "destination": {
+            "id": 2,
+            "name": "Destination",
+            "lat": 42.6036354,
+            "lon": -5.5979909,
+            "country": "ES",
+            "maxHeight": 310
         }
     }
 ]

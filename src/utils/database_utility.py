@@ -4,7 +4,6 @@ import psycopg2.extras
 
 
 def get_database_cursor():
-
     conn = psycopg2.connect(
         host="localhost",
         database="dotgis_ctc",
