@@ -2,19 +2,28 @@ import json
 import time
 from src.optimization import execute_optimization
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import elevation
 
+# Example locations (latitude, longitude) along the route
+# locations = [
+#     (37.7749, -122.4194),  # San Francisco
+#     (34.0522, -118.2437)   # Los Angeles
+#     # Add more waypoints as needed
+# ]
+
+# # Retrieve elevations
+# elevation.clip(bounds=(12.35, 41.8, 12.65, 42), output='Rome-DEM.tif')
+#  # clean up stale temporary files and fix the cache in the event of a server error
+# elevation.clean()
+
+# if elevations:
+#     for i, elevation in enumerate(elevations):
+#         print(f"Waypoint {i + 1}: Elevation = {elevation} meters")
 
 def check_post_data(post_data):
-    fields = ['order_id', 'origin', 'destination']
+    fields = ['order_id']
     if not all(field in post_data for field in fields):
         raise ValueError("Missing required fields in post data")
-
-    fields = ['lat', 'lon', 'id', 'name']
-    if not all(field in post_data['origin'] for field in fields):
-        raise ValueError("Missing required fields in origin")
-
-    if not all(field in post_data['destination'] for field in fields):
-        raise ValueError("Missing required fields in destination")
 
 def execute_post(post_data):
     try:

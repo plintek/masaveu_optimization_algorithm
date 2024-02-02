@@ -1,3 +1,5 @@
+from .score_functions.distance import distance
+
 class ScoreFunction:
     def __init__(self, name, func, weight=1):
         self.name = name
@@ -14,13 +16,15 @@ class ScoreFunction:
         return f"ScoreFunction(name={self.name}, func={self.func}, weight={self.weight})"
 
 
-def score_vehicles(order, vehicles, origin, destination):
+def score_vehicles(order, vehicles):
     score_functions = [
-        # ScoreFunction("national_international", national_international),
+        ScoreFunction("distance", distance, 0.2),
     ]
 
     for vehicle in vehicles:
         for score_function in score_functions:
-            vehicle.add_score(score_function(order=order, vehicle=vehicle, origin=origin, destination=destination))
+            vehicle.add_score(score_function(order=order, vehicle=vehicle))
+
+    print(f"DEBUG: Vehículos puntuados: {vehicles}")
 
     return vehicles

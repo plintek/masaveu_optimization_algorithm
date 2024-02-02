@@ -1,6 +1,8 @@
 from .filter_functions.national_international import national_international
 from .filter_functions.vehicle_expirations import vehicle_expirations
-
+from .filter_functions.check_material import check_material
+from .filter_functions.check_truck_type import check_truck_type
+from .filter_functions.check_locations_constraints import check_locations_constraints
 class Filter:
     def __init__(self, name, func):
         self.name = name
@@ -16,16 +18,21 @@ class Filter:
         return f"Filter(name={self.name}, func={self.func})"
 
 
-def filter_vehicles(order, vehicles, origin, destination):
+def filter_vehicles(order, vehicles, force_clean):
     filters = [
         Filter("national_international", national_international),
-        Filter("vehicle_expirations", vehicle_expirations)
+        Filter("vehicle_expirations", vehicle_expirations),
+        Filter("check_truck_type", check_truck_type),
+        Filter("check_locations_constraints", check_locations_constraints),
     ]
+
+    if not force_clean:
+        filters.append(Filter("check_material", check_material))
 
     filtered_vehicles = []
     for vehicle in vehicles:
         for filter in filters:
-            if not filter(order=order, vehicle=vehicle, origin=origin, destination=destination):
+            if not filter(order=order, vehicle=vehicle):
                 print(f"DEUBG: El vehículo {vehicle} no cumple con el filtro {filter}")
                 break
         else:

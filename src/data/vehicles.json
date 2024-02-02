@@ -18,6 +18,7 @@
         "hours": 9534,
         "grossVehicleWeight": 0,
         "tareWeight": 0,
+        "height": 310,
         "truckTypeName": "trailer",
         "assignedPex": 1,
         "geolocation": {

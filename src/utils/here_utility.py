@@ -11,7 +11,7 @@ def calculate_locations_with_here(start_location: Location, end_location: Locati
 
     api_key = "KHKPpYn2p2aNvLQwUOA1TwbTRJa6n-ntaitcRBkCwag"
 
-    url = "https://router.hereapi.com/v8/routes?origin={},{}&transportMode=truck&destination={},{}&return=summary,polyline,turnbyturnactions,elevation&apiKey={}".format(
+    url = "https://router.hereapi.com/v8/routes?origin={},{}&transportMode=truck&destination={},{}&return=summary,polyline&apiKey={}".format(
         start_location.lat, start_location.lon, end_location.lat, end_location.lon, api_key)
 
     cache = CacheUtility.read_cache(url, "here")
@@ -23,23 +23,14 @@ def calculate_locations_with_here(start_location: Location, end_location: Locati
     response = requests.get(url)
     data = response.json()
 
+    print(data)
+
     CacheUtility.write_cache(url, data, "here")
 
     end_time = time()
     print("HERE: {} seconds".format(end_time - start_time))
         
-    turn_by_turn_actions = data['routes'][0]['sections'][0]['turnByTurnActions']
-    max_turn_angle = 0
-    for turn_by_turn_action in turn_by_turn_actions:
-        if 'turnAngle' in turn_by_turn_action:
-            turn_angle = abs(turn_by_turn_action['turnAngle'])
-            if turn_angle > max_turn_angle:
-                max_turn_angle = turn_angle
-    
-    print("HERE: Max turn angle: {}".format(max_turn_angle))
-
     return data
-
 
 
 def calculate_time_on_road_from_here_route(result):

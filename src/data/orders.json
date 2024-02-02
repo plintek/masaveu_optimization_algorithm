@@ -2,6 +2,7 @@
     {
         "id": "89F07B0D-E424-4FC4-9135-FFE85FAC5AAF",
         "order_number": 1,
+        "assignedTruck": "1234GFD",
         "status": "pending",
         "date": "2024-01-01 00:00:00",
         "quantity": 25000,
@@ -18,18 +19,20 @@
         "origin": {
             "id": 1,
             "name": "Origin",
-            "lat": 43.3695162,
-            "lon": -5.8692574,
+            "lat": 37.613337,
+            "lon": -1.754691,
             "country": "ES",
-            "maxHeight": 310
+            "maxHeight": 310,
+            "loadType": "trailer"
         },
         "destination": {
             "id": 2,
             "name": "Destination",
-            "lat": 42.6036354,
-            "lon": -5.5979909,
+            "lat": 38.528538,
+            "lon": -1.153448,
             "country": "ES",
-            "maxHeight": 310
+            "maxHeight": 310,
+            "loadType": "trailer"
         }
     },
     {
@@ -55,7 +58,8 @@
             "lat": 43.3695162,
             "lon": -5.8692574,
             "country": "ES",
-            "maxHeight": 310
+            "maxHeight": 310,
+            "loadType": "cuba"
         },
         "destination": {
             "id": 2,
@@ -63,7 +67,8 @@
             "lat": 42.6036354,
             "lon": -5.5979909,
             "country": "ES",
-            "maxHeight": 310
+            "maxHeight": 310,
+            "loadType": "cuba"
         }
     },
     {
@@ -89,7 +94,8 @@
             "lat": 43.3695162,
             "lon": -5.8692574,
             "country": "ES",
-            "maxHeight": 310
+            "maxHeight": 310,
+            "loadType": "silo"
         },
         "destination": {
             "id": 2,
@@ -97,7 +103,8 @@
             "lat": 42.6036354,
             "lon": -5.5979909,
             "country": "ES",
-            "maxHeight": 310
+            "maxHeight": 310,
+            "loadType": "silo"
         }
     }
 ]

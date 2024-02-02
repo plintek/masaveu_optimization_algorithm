@@ -1,10 +1,11 @@
 import json
 from datetime import datetime
-
+from .location import Location
+from .order import Order
 class Vehicle:
     @classmethod
     def _check_keys(cls, vehicle):
-        required_keys = ['oid', 'vehicleCode', 'licensePlate', 'cardExpiration', 'permissionExpiration', 'itvExpiration', 'insuranceExpiration', 'extinguisherExpiration', 'wasteExpiration', 'pressureExpiration', 'compressorExpiration', 'suspensionExpiration', 'active', 'company', 'cardType', 'truckType', 'tachographExpiration', 'loadCapacity', 'authorizedWeight', 'delegation', 'mileage', 'hours', 'grossVehicleWeight', 'tareWeight', 'operationalStatus', 'vehicleClassification', 'usualLoadingPoint']
+        required_keys = ['oid', 'vehicleCode', 'licensePlate', 'cardExpiration', 'permissionExpiration', 'itvExpiration', 'insuranceExpiration', 'extinguisherExpiration', 'wasteExpiration', 'pressureExpiration', 'compressorExpiration', 'suspensionExpiration', 'tachographExpiration', 'active', 'mileage', 'hours', 'grossVehicleWeight', 'tareWeight', 'truckTypeName', 'assignedPex', 'geolocation', 'lastTrimesterOrderCount', 'lastTrimesterMileageCount']
         
         if not all(key in vehicle for key in required_keys):
             raise ValueError("Missing required keys in vehicle dictionary")
@@ -15,14 +16,14 @@ class Vehicle:
             if 'Expiration' in key and value is not None:
                 value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
             setattr(self, key, value)
-
+        
         self.score = 0
 
     def __str__(self):
         return f'{self.licensePlate}'
 
     def __repr__(self):
-        return f'{self.licensePlate}: {self.score} points'
+        return f'{self.licensePlate}: {round(self.score, 4)} points'
 
     @staticmethod
     def from_json(vehicle):
@@ -62,3 +63,10 @@ class Vehicle:
 
     def add_score(self, score):
         self.score += score
+
+    def get_last_order_material(self):
+        last_vehicle_order = Order.get_last_order_of_vehicle(self)
+        return last_vehicle_order and last_vehicle_order.material
+
+    def get_location(self):
+        return Location(lat=self.geolocation['lat'], lon=self.geolocation['lon'])

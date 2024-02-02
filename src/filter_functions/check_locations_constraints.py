@@ -1,0 +1,2 @@
+def check_locations_constraints(order, vehicle):
+    return vehicle.truckTypeName == order.origin.loadType and vehicle.truckTypeName == order.destination.loadType and vehicle.height <= order.origin.maxHeight and vehicle.height <= order.destination.maxHeight
