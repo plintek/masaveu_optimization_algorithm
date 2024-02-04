@@ -7,9 +7,11 @@ from src.entities.location import Location
 
 
 class Order:
+    """Represents an order with an ID, order number, date, quantity, container, assigned truck, truck type, material, origin, and destination."""
+
     def __init__(
         self,
-        id,
+        uid,
         order_number,
         date,
         quantity,
@@ -19,12 +21,15 @@ class Order:
         material,
         origin,
         destination,
+        deadline_date=None,
+        delivery_date=None,
+        load_duration=0,
     ):
         """
         Initializes an Order object.
 
         Args:
-            id (int): The ID of the order.
+            uid (int): The ID of the order.
             order_number (str): The order number.
             date (str): The date of the order in the format "%Y-%m-%d %H:%M:%S".
             quantity (int): The quantity of the order.
@@ -35,9 +40,10 @@ class Order:
             origin (dict): The origin location information in JSON format.
             destination (dict): The destination location information in JSON format.
         """
-        self.id = id
+        self.uid = uid
         self.order_number = order_number
         self.date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+
         self.quantity = quantity
         self.container = Container.from_json(container)
         self.assigned_truck = assigned_truck
@@ -45,18 +51,29 @@ class Order:
         self.material = material
         self.origin = Location.from_json(origin)
         self.destination = Location.from_json(destination)
+        self.deadline_date = (
+            datetime.strptime(deadline_date, "%Y-%m-%d %H:%M:%S")
+            if deadline_date
+            else None
+        )
+        self.delivery_date = (
+            datetime.strptime(delivery_date, "%Y-%m-%d %H:%M:%S")
+            if delivery_date
+            else None
+        )
+        self.load_duration = load_duration
 
     def __str__(self):
-        return f"{self.id} {self.order_number} {self.date} {self.quantity} {self.container}"
+        return f"{self.uid} {self.order_number} {self.date} {self.quantity} {self.container}"
 
     def __repr__(self):
-        return f"{self.id} {self.order_number} {self.date} {self.quantity} {self.container}"
+        return f"{self.uid} {self.order_number} {self.date} {self.quantity} {self.container}"
 
     @staticmethod
     def from_json(order):
         """Create an order from a json object."""
         return Order(
-            order["id"],
+            order["uid"],
             order["order_number"],
             order["date"],
             order["quantity"],
@@ -66,6 +83,9 @@ class Order:
             order["material"],
             order["origin"],
             order["destination"],
+            order["deadline_date"],
+            order["delivery_date"] if "delivery_date" in order else None,
+            order["load_duration"] if "load_duration" in order else 0,
         )
 
     @staticmethod
@@ -84,7 +104,7 @@ class Order:
         orders = Order.load_all_orders()
         found_order = None
         for order in orders:
-            if order.id == order_id:
+            if order.uid == order_id:
                 found_order = order
                 break
 
@@ -99,7 +119,7 @@ class Order:
         orders = Order.load_all_orders()
         found_orders = []
         for order in orders:
-            if order.assigned_truck == vehicle.licensePlate:
+            if order.assigned_truck == vehicle.license_plate:
                 found_orders.append(order)
 
         return found_orders

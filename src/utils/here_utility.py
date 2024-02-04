@@ -22,8 +22,6 @@ def calculate_locations_with_here(start_location: Location, end_location: Locati
     response = requests.get(url, timeout=5)
     data = response.json()
 
-    print(data)
-
     CacheUtility.write_cache(url, data, "here")
 
     end_time = time()

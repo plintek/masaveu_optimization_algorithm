@@ -1,5 +1,7 @@
 """ This module contains the scoring functions and the scoring logic. """
 from .score_functions.distance import distance
+from .score_functions.last_trimester_orders import last_trimester_orders
+from .score_functions.last_trimester_mileage import last_trimester_mileage
 
 
 class ScoreFunction:
@@ -60,13 +62,27 @@ def score_vehicles(order, vehicles):
         list: The list of vehicles with scores.
     """
     score_functions = [
-        ScoreFunction("distance", distance, 0.2),
+        ScoreFunction("distance", distance, 0.9),
+        ScoreFunction("last_trimester_orders", last_trimester_orders, 0.01),
+        ScoreFunction("last_trimester_mileage", last_trimester_mileage, 0.09),
     ]
 
-    for vehicle in vehicles:
-        for score_function in score_functions:
-            vehicle.add_score(score_function(order=order, vehicle=vehicle))
+    for score_function in score_functions:
+        max_score = 0
+        scores = []
+        for vehicle in vehicles:
+            score = score_function(order=order, vehicle=vehicle)
+            scores.append(score)
+            if score > max_score:
+                max_score = score
 
-    print(f"DEBUG: Vehículos puntuados: {vehicles}")
+        count = 0
+        for vehicle in vehicles:
+            if max_score == 0:
+                vehicle.add_score(0)
+            else:
+                vehicle.add_score(
+                    (scores[count] / max_score) * score_function.weight)
+            count += 1
 
     return vehicles

@@ -9,13 +9,13 @@ class Location:
         self,
         lat,
         lon,
-        id=None,
+        uid=None,
         name=None,
         country=None,
         max_height=None,
-        load_type=None,
+        load_type=None
     ):
-        self.id = id
+        self.uid = uid
         self.name = name
         self.lat = lat
         self.lon = lon
@@ -29,10 +29,10 @@ class Location:
         return Location(**location)
 
     def __str__(self):
-        return f"ID {self.id} ({self.name}): {self.lat}, {self.lon}"
+        return f"ID {self.uid} ({self.name}): {self.lat}, {self.lon}"
 
     def __repr__(self):
-        return f"ID {self.id} ({self.name}): {self.lat}, {self.lon}"
+        return f"ID {self.uid} ({self.name}): {self.lat}, {self.lon}"
 
     def is_international(self):
         """Check if the location is international."""

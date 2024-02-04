@@ -69,7 +69,7 @@ class Server(BaseHTTPRequestHandler):
 if __name__ == '__main__':
 
     HOST_NAME = '0.0.0.0'
-    SERVER_PORT = 5757
+    SERVER_PORT = 5758
 
     my_server = HTTPServer((HOST_NAME, SERVER_PORT), Server)
     print(time.asctime(), f"Server Starts - {HOST_NAME}:{SERVER_PORT}")

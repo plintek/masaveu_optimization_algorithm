@@ -1,9 +1,11 @@
 """ This module contains the filters to be applied to the vehicles. """
-from .filter_functions.national_international import national_international
-from .filter_functions.vehicle_expirations import vehicle_expirations
-from .filter_functions.check_material import check_material
-from .filter_functions.check_truck_type import check_truck_type
-from .filter_functions.check_locations_constraints import check_locations_constraints
+from src.filter_functions.national_international import national_international
+from src.filter_functions.vehicle_expirations import vehicle_expirations
+from src.filter_functions.check_material import check_material
+from src.filter_functions.check_truck_type import check_truck_type
+from src.filter_functions.check_locations_constraints import check_locations_constraints
+from src.filter_functions.check_geographic_zone import check_geographic_zone
+from src.filter_functions.check_delivery_on_time import check_delivery_on_time
 
 
 class Filter:
@@ -57,10 +59,13 @@ def filter_vehicles(order, vehicles, force_clean):
         Filter("vehicle_expirations", vehicle_expirations),
         Filter("check_truck_type", check_truck_type),
         Filter("check_locations_constraints", check_locations_constraints),
+        Filter("check_geographic_zone", check_geographic_zone),
     ]
 
     if not force_clean:
         filters.append(Filter("check_material", check_material))
+
+    filters.append(Filter("check_delivery_on_time", check_delivery_on_time))
 
     filtered_vehicles = []
     for vehicle in vehicles:

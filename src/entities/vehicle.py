@@ -7,50 +7,46 @@ from src.entities.order import Order
 
 class Vehicle:
     """Vehicle entity class"""
-    @classmethod
-    def _check_keys(cls, vehicle):
-        required_keys = ['oid', 'vehicle_code', 'license_plate', 'card__expiration', 'permission__expiration', 'itv__expiration', 'insurance_expiration', 'extinguisher_expiration', 'waste_expiration', 'pressure_expiration', 'compressor_expiration',
-                         'suspension__expiration', 'tachograph_expiration', 'active', 'mileage', 'hours', 'gross_vehicle_weight', 'tare_weight', 'truck_type_name', 'assigned_ex', 'geolocation', 'last_trimester_order_count', 'last_trimester_mileage_count']
 
-        if not all(key in vehicle for key in required_keys):
-            raise ValueError("Missing required keys in vehicle dictionary")
-
-    def __init__(self, oid, vehicle_code, license_plate, card__expiration, permission__expiration, itv__expiration, insurance_expiration, extinguisher_expiration, waste_expiration, pressure_expiration, compressor_expiration, suspension__expiration, tachograph_expiration, active, mileage, hours, gross_vehicle_weight, tare_weight, truck_type_name, assigned_ex, geolocation, last_trimester_order_count, last_trimester_mileage_count):
+    def __init__(self, oid, vehicle_code, license_plate, card_expiration, permission_expiration, itv_expiration, insurance_expiration, extinguisher_expiration, waste_expiration, pressure_expiration, compressor_expiration, suspension_expiration, tachograph_expiration, active, mileage, hours, gross_vehicle_weight, tare_weight, truck_type_name, assigned_pex, geolocation, last_trimester_order_count, last_trimester_mileage_count, height, can_go_international):
         self.oid = oid
         self.vehicle_code = vehicle_code
         self.license_plate = license_plate
-        self.card__expiration = datetime.strptime(
-            card__expiration, "%Y-%m-%d %H:%M:%S")
-        self.permission__expiration = datetime.strptime(
-            permission__expiration, "%Y-%m-%d %H:%M:%S")
-        self.itv__expiration = datetime.strptime(
-            itv__expiration, "%Y-%m-%d %H:%M:%S")
+        self.card_expiration = datetime.strptime(
+            card_expiration, "%Y-%m-%d %H:%M:%S") if card_expiration else None
+        self.permission_expiration = datetime.strptime(
+            permission_expiration, "%Y-%m-%d %H:%M:%S") if permission_expiration else None
+        self.itv_expiration = datetime.strptime(
+            itv_expiration, "%Y-%m-%d %H:%M:%S") if itv_expiration else None
         self.insurance_expiration = datetime.strptime(
-            insurance_expiration, "%Y-%m-%d %H:%M:%S")
+            insurance_expiration, "%Y-%m-%d %H:%M:%S") if insurance_expiration else None
         self.extinguisher_expiration = datetime.strptime(
-            extinguisher_expiration, "%Y-%m-%d %H:%M:%S")
+            extinguisher_expiration, "%Y-%m-%d %H:%M:%S") if extinguisher_expiration else None
         self.waste_expiration = datetime.strptime(
-            waste_expiration, "%Y-%m-%d %H:%M:%S")
+            waste_expiration, "%Y-%m-%d %H:%M:%S") if waste_expiration else None
         self.pressure_expiration = datetime.strptime(
-            pressure_expiration, "%Y-%m-%d %H:%M:%S")
+            pressure_expiration, "%Y-%m-%d %H:%M:%S") if pressure_expiration else None
         self.compressor_expiration = datetime.strptime(
-            compressor_expiration, "%Y-%m-%d %H:%M:%S")
-        self.suspension__expiration = datetime.strptime(
-            suspension__expiration, "%Y-%m-%d %H:%M:%S")
+            compressor_expiration, "%Y-%m-%d %H:%M:%S") if compressor_expiration else None
+        self.suspension_expiration = datetime.strptime(
+            suspension_expiration, "%Y-%m-%d %H:%M:%S") if suspension_expiration else None
         self.tachograph_expiration = datetime.strptime(
-            tachograph_expiration, "%Y-%m-%d %H:%M:%S")
+            tachograph_expiration, "%Y-%m-%d %H:%M:%S") if tachograph_expiration else None
         self.active = active
         self.mileage = mileage
         self.hours = hours
         self.gross_vehicle_weight = gross_vehicle_weight
         self.tare_weight = tare_weight
         self.truck_type_name = truck_type_name
-        self.assigned_ex = assigned_ex
+        self.assigned_pex = assigned_pex
         self.geolocation = geolocation
         self.last_trimester_order_count = last_trimester_order_count
         self.last_trimester_mileage_count = last_trimester_mileage_count
+        self.height = height
+        self.can_go_international = can_go_international
 
         self.score = 0
+        self.will_be_in_geographic_zone = False
 
     def __str__(self):
         return f'{self.license_plate}'
@@ -73,22 +69,20 @@ class Vehicle:
             vehicles.append(Vehicle.from_json(vehicle))
         return vehicles
 
-    # TODO: Implement fields
     def can_travel_international(self):
         """Returns True if the vehicle can travel internationally, False otherwise."""
-        return True
+        return self.can_go_international
 
-    # TODO: Implement fields
     def can_travel_national(self):
         """Returns True if the vehicle can travel nationally, False otherwise."""
         return True
 
-    def check__expirations(self, date):
+    def check_expirations(self, date):
         """Returns True if all the vehicle's _expirations are valid, False otherwise."""
         if self.active is False:
             return False
 
-        attributes_to_check = ['card__expiration', 'permission__expiration', 'itv__expiration', 'insurance_expiration', 'extinguisher_expiration',
+        attributes_to_check = ['card_expiration', 'permission_expiration', 'itv_expiration', 'insurance_expiration', 'extinguisher_expiration',
                                'waste_expiration', 'pressure_expiration', 'compressor_expiration', 'suspension_expiration', 'tachograph_expiration']
 
         is_valid = True
@@ -112,3 +106,8 @@ class Vehicle:
     def get_location(self):
         """Returns the vehicle's location as a Location object."""
         return Location(lat=self.geolocation['lat'], lon=self.geolocation['lon'])
+
+    @staticmethod
+    def get_total_rest_time(road_minutes):
+        """Returns the total rest time in minutes based on the road minutes."""
+        return round(road_minutes / (4.5*60) * 45, 0)
