@@ -36,11 +36,13 @@ def execute_post(post_data):
 
         check_post_data(post_data)
 
-        execute_optimization(post_data)
+        data = execute_optimization(post_data)
 
         # End timer
         end_time = time.time()
         print('Time elapsed: {}s'.format(end_time - start_time))
+
+        return data
 
     except Exception as e:
         print(e)
@@ -50,7 +52,7 @@ class Server(BaseHTTPRequestHandler):
     """Server class for handling requests."""
     # As json
 
-    def do_post(self):
+    def do_POST(self):
         """Handle POST requests."""
         self.send_response(200)
         self.send_header("Content-type", "application/json")
@@ -58,25 +60,31 @@ class Server(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         post_data = json.loads(post_data.decode("utf-8"))
-        return_data = {"message": "Optimization added to queue"}
 
-        execute_post(post_data)
+        print(f"Received data: {post_data}")
+
+        return_data = execute_post(post_data)
 
         return_data_bytes = json.dumps(return_data).encode("utf-8")
         self.wfile.write(return_data_bytes)
+
+    # OPTIONS
+    def do_OPTIONS(self):
+        """Handle OPTIONS requests."""
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
 
 
 if __name__ == '__main__':
 
     HOST_NAME = '0.0.0.0'
-    SERVER_PORT = 5758
+    SERVER_PORT = 5757
 
     my_server = HTTPServer((HOST_NAME, SERVER_PORT), Server)
     print(time.asctime(), f"Server Starts - {HOST_NAME}:{SERVER_PORT}")
-
-    # example
-    with open('src/data/input.json', 'r', encoding="utf-8") as file:
-        execute_optimization(json.load(file))
 
     try:
         my_server.serve_forever()

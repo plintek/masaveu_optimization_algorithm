@@ -27,5 +27,8 @@ def execute_optimization(data):
         return
 
     best_vehicle = scored_vehicles[0]
-    print("BEST VEHICLE: ", best_vehicle)
-    print("CHOSEN VEHICLES: ", scored_vehicles)
+
+    return {
+        "vehicle_list": [vehicle.to_json() for vehicle in scored_vehicles],
+        "best_vehicle": best_vehicle.to_json()
+    }

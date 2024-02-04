@@ -54,6 +54,38 @@ class Vehicle:
     def __repr__(self):
         return f'{self.oid} con matrícula {self.license_plate}: {round(self.score, 4)} points{self.will_be_in_geographic_zone and " GEOGRAPHIC PRIORITY" or ""}'
 
+    # json dumps
+    def to_json(self):
+        """Returns the vehicle as a dictionary"""
+        return {
+            "id": self.oid,
+            "vehicle_code": self.vehicle_code,
+            "license_plate": self.license_plate,
+            "card_expiration": self.card_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.card_expiration else None,
+            "permission_expiration": self.permission_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.permission_expiration else None,
+            "itv_expiration": self.itv_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.itv_expiration else None,
+            "insurance_expiration": self.insurance_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.insurance_expiration else None,
+            "extinguisher_expiration": self.extinguisher_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.extinguisher_expiration else None,
+            "waste_expiration": self.waste_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.waste_expiration else None,
+            "pressure_expiration": self.pressure_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.pressure_expiration else None,
+            "compressor_expiration": self.compressor_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.compressor_expiration else None,
+            "suspension_expiration": self.suspension_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.suspension_expiration else None,
+            "tachograph_expiration": self.tachograph_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.tachograph_expiration else None,
+            "active": self.active,
+            "mileage": self.mileage,
+            "hours": self.hours,
+            "gross_vehicle_weight": self.gross_vehicle_weight,
+            "tare_weight": self.tare_weight,
+            "truck_type_name": self.truck_type_name,
+            "assigned_pex": self.assigned_pex,
+            "geolocation": self.geolocation,
+            "last_trimester_order_count": self.last_trimester_order_count,
+            "last_trimester_mileage_count": self.last_trimester_mileage_count,
+            "height": self.height,
+            "can_go_international": self.can_go_international,
+            "score": self.score
+        }
+
     @staticmethod
     def from_json(vehicle):
         """Creates a Vehicle object from a dictionary"""
