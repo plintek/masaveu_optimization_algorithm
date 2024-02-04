@@ -1,6 +1,8 @@
 # UnreacheableAddressException
 
 class UnreacheableAddressesException(Exception):
+    """Excepción que se lanza cuando una dirección no es alcanzable desde otra dirección"""
+
     def __init__(self, to_locations, from_location):
         super().__init__("La dirección no es alcanzable")
         self.from_location = from_location

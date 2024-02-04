@@ -1,8 +1,8 @@
+""" Main file for the optimization server. """
 import json
 import time
-from src.optimization import execute_optimization
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import elevation
+from src.optimization import execute_optimization
 
 # Example locations (latitude, longitude) along the route
 # locations = [
@@ -20,16 +20,20 @@ import elevation
 #     for i, elevation in enumerate(elevations):
 #         print(f"Waypoint {i + 1}: Elevation = {elevation} meters")
 
+
 def check_post_data(post_data):
+    """Check if the post data contains all the required fields."""
     fields = ['order_id']
     if not all(field in post_data for field in fields):
         raise ValueError("Missing required fields in post data")
 
+
 def execute_post(post_data):
+    """Execute the optimization based on the post data."""
     try:
         # Start timer
         start_time = time.time()
-        
+
         check_post_data(post_data)
 
         execute_optimization(post_data)
@@ -39,12 +43,15 @@ def execute_post(post_data):
         print('Time elapsed: {}s'.format(end_time - start_time))
 
     except Exception as e:
-       print(e)
+        print(e)
 
 
 class Server(BaseHTTPRequestHandler):
+    """Server class for handling requests."""
     # As json
-    def do_POST(self):
+
+    def do_post(self):
+        """Handle POST requests."""
         self.send_response(200)
         self.send_header("Content-type", "application/json")
         self.end_headers()
@@ -60,14 +67,15 @@ class Server(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    host_name = '0.0.0.0'
-    server_port = 5757
 
-    my_server = HTTPServer((host_name, server_port), Server)
-    print(time.asctime(), "Server Starts - %s:%s" % (host_name, server_port))
+    HOST_NAME = '0.0.0.0'
+    SERVER_PORT = 5757
+
+    my_server = HTTPServer((HOST_NAME, SERVER_PORT), Server)
+    print(time.asctime(), f"Server Starts - {HOST_NAME}:{SERVER_PORT}")
 
     # example
-    with open(f'src/data/input.json', 'r') as file:
+    with open('src/data/input.json', 'r', encoding="utf-8") as file:
         execute_optimization(json.load(file))
 
     try:
@@ -76,4 +84,4 @@ if __name__ == '__main__':
         pass
 
     my_server.server_close()
-    print(time.asctime(), "Server Stops - %s:%s" % (host_name, server_port))
+    print(time.asctime(), f"Server Stops - {HOST_NAME}:{SERVER_PORT}")

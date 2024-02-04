@@ -13,8 +13,23 @@ expiration_time = 600000
 
 
 class CacheUtility:
+    """
+    Utility class for caching data.
+    """
+
     @staticmethod
     def write_cache(key, value, type):
+        """
+        Writes data to the cache.
+
+        Args:
+            key (str): The cache key.
+            value (Any): The data to be cached.
+            type (str): The type of data being cached.
+
+        Returns:
+            None
+        """
         if type == "routes":
             key = json.dumps(key)
 
@@ -25,6 +40,16 @@ class CacheUtility:
 
     @staticmethod
     def read_cache(key, type):
+        """
+        Reads data from the cache.
+
+        Args:
+            key (str): The cache key.
+            type (str): The type of data being read.
+
+        Returns:
+            Any: The cached data, or None if not found.
+        """
         try:
             if type == "routes":
                 key = json.dumps(key)

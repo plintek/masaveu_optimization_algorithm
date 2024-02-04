@@ -1,9 +1,15 @@
+""" This module contains the utility functions for the database. """
 import psycopg2
-import os
 import psycopg2.extras
 
 
 def get_database_cursor():
+    """
+    Connects to the PostgreSQL database and returns a cursor object.
+
+    Returns:
+        tuple: A tuple containing the connection object and the cursor object.
+    """
     conn = psycopg2.connect(
         host="localhost",
         database="dotgis_ctc",

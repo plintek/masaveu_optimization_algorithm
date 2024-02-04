@@ -1,12 +1,15 @@
-from .entities.order import Order
-from .entities.location import Location
-from .entities.vehicle import Vehicle
-from .filters import filter_vehicles
-from .scorer import score_vehicles
+
+""" This module contains the optimization process. """
+from src.entities.order import Order
+from src.entities.vehicle import Vehicle
+from src.filters import filter_vehicles
+from src.scorer import score_vehicles
 
 from .utils.here_utility import calculate_locations_with_here
 
+
 def execute_optimization(data):
+    """ Execute the optimization process. """
     order = Order.load_order_from_sinex(data['order_id'])
     force_clean = data['forceClean']
 
@@ -14,6 +17,6 @@ def execute_optimization(data):
 
     filtered_vehicles = filter_vehicles(order, vehicles, force_clean)
 
-    scored_vehicles = score_vehicles(order, filtered_vehicles)
+    score_vehicles(order, filtered_vehicles)
 
-    route = calculate_locations_with_here(order.origin, order.destination)
+    calculate_locations_with_here(order.origin, order.destination)
