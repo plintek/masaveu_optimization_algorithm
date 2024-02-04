@@ -1,0 +1,6 @@
+Vehicles:
+1-5 algo caducao
+Ultimos 3 son cubas
+6,7,8,9 tienen el pex igual a su numero
+
+25,26,27 solo nacional

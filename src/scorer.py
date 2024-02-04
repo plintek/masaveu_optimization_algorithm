@@ -62,9 +62,9 @@ def score_vehicles(order, vehicles):
         list: The list of vehicles with scores.
     """
     score_functions = [
-        ScoreFunction("distance", distance, 0.9),
-        ScoreFunction("last_trimester_orders", last_trimester_orders, 0.01),
-        ScoreFunction("last_trimester_mileage", last_trimester_mileage, 0.09),
+        ScoreFunction("distance", distance, 0.8),
+        ScoreFunction("last_trimester_orders", last_trimester_orders, 0.03),
+        ScoreFunction("last_trimester_mileage", last_trimester_mileage, 0.17),
     ]
 
     for score_function in score_functions:

@@ -49,10 +49,10 @@ class Vehicle:
         self.will_be_in_geographic_zone = False
 
     def __str__(self):
-        return f'{self.license_plate}'
+        return f'{self.oid} con matrícula {self.license_plate}'
 
     def __repr__(self):
-        return f'{self.license_plate}: {round(self.score, 4)} points'
+        return f'{self.oid} con matrícula {self.license_plate}: {round(self.score, 4)} points{self.will_be_in_geographic_zone and " GEOGRAPHIC PRIORITY" or ""}'
 
     @staticmethod
     def from_json(vehicle):

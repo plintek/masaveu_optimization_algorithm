@@ -12,7 +12,6 @@ class Order:
     def __init__(
         self,
         uid,
-        order_number,
         date,
         quantity,
         container,
@@ -30,7 +29,6 @@ class Order:
 
         Args:
             uid (int): The ID of the order.
-            order_number (str): The order number.
             date (str): The date of the order in the format "%Y-%m-%d %H:%M:%S".
             quantity (int): The quantity of the order.
             container (dict): The container information in JSON format.
@@ -41,7 +39,6 @@ class Order:
             destination (dict): The destination location information in JSON format.
         """
         self.uid = uid
-        self.order_number = order_number
         self.date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
 
         self.quantity = quantity
@@ -64,26 +61,25 @@ class Order:
         self.load_duration = load_duration
 
     def __str__(self):
-        return f"{self.uid} {self.order_number} {self.date} {self.quantity} {self.container}"
+        return f"{self.uid} {self.date} {self.quantity} {self.container}"
 
     def __repr__(self):
-        return f"{self.uid} {self.order_number} {self.date} {self.quantity} {self.container}"
+        return f"{self.uid} {self.date} {self.quantity} {self.container}"
 
     @staticmethod
     def from_json(order):
         """Create an order from a json object."""
         return Order(
             order["uid"],
-            order["order_number"],
             order["date"],
             order["quantity"],
             order["container"],
-            order["assigned_truck"],
+            order["assigned_truck"] if "assigned_truck" in order else None,
             order["truck_type"],
             order["material"],
             order["origin"],
             order["destination"],
-            order["deadline_date"],
+            order["deadline_date"] if "deadline_date" in order else None,
             order["delivery_date"] if "delivery_date" in order else None,
             order["load_duration"] if "load_duration" in order else 0,
         )

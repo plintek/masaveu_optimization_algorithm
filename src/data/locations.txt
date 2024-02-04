@@ -1,0 +1,12 @@
+id: 1
+Barcelona lat: 41.3825, lon: 2.1769
+
+id: 7
+Zaragoza lat: 41.6488, lon: -0.8891
+
+id: 6
+Valencia lat: 39.4699, lon: -0.3763
+
+
+id: 8
+Berlin lat: 52.5200, lon: 13.4050

@@ -19,6 +19,8 @@ def execute_optimization(data):
 
     # order by score from lowest to highest
     scored_vehicles.sort(key=lambda vehicle: vehicle.score)
+    scored_vehicles.sort(
+        key=lambda vehicle: vehicle.will_be_in_geographic_zone, reverse=True)
 
     if not scored_vehicles:
         print("No vehicles available")
