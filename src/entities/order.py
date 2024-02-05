@@ -95,9 +95,10 @@ class Order:
         return orders
 
     @staticmethod
-    def load_order_from_sinex(order_id):
+    def load_order_from_sinex(order_id, orders=None):
         """Load an order from the sinex file."""
-        orders = Order.load_all_orders()
+        if not orders:
+            orders = Order.load_all_orders()
         found_order = None
         for order in orders:
             if order.uid == order_id:

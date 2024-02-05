@@ -34,7 +34,7 @@ def execute_post(post_data):
         # Start timer
         start_time = time.time()
 
-        check_post_data(post_data)
+        # check_post_data(post_data)
 
         data = execute_optimization(post_data)
 
@@ -61,8 +61,6 @@ class Server(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)
         post_data = json.loads(post_data.decode("utf-8"))
 
-        print(f"Received data: {post_data}")
-
         return_data = execute_post(post_data)
 
         return_data_bytes = json.dumps(return_data).encode("utf-8")
@@ -79,7 +77,6 @@ class Server(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-
     HOST_NAME = '0.0.0.0'
     SERVER_PORT = 5757
 
