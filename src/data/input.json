@@ -363,7 +363,7 @@
     ],
     "vehicles": [
         {
-            "oid": "OID-TEST-1",
+            "uid": "UID-TEST-1",
             "vehicle_code": "8636FWP",
             "license_plate": "8636FWP",
             "card_expiration": "2020-04-05 00:00:00",
@@ -393,7 +393,7 @@
             "last_trimester_mileage_count": 0
         },
         {
-            "oid": "OID-TEST-2",
+            "uid": "UID-TEST-2",
             "vehicle_code": "1234ABC",
             "license_plate": "1234ABC",
             "card_expiration": "2024-04-05 00:00:00",
@@ -424,7 +424,7 @@
             "last_trimester_mileage_count": 1500
         },
         {
-            "oid": "OID-TEST-3",
+            "uid": "UID-TEST-3",
             "vehicle_code": "5678XYZ",
             "license_plate": "5678XYZ",
             "card_expiration": "2024-04-05 00:00:00",
@@ -455,7 +455,7 @@
             "last_trimester_mileage_count": 800
         },
         {
-            "oid": "OID-TEST-4",
+            "uid": "UID-TEST-4",
             "vehicle_code": "9876LMN",
             "license_plate": "9876LMN",
             "card_expiration": "2024-04-05 00:00:00",
@@ -486,7 +486,7 @@
             "last_trimester_mileage_count": 1200
         },
         {
-            "oid": "OID-TEST-5",
+            "uid": "UID-TEST-5",
             "vehicle_code": "4567PQR",
             "license_plate": "4567PQR",
             "card_expiration": "2024-04-05 00:00:00",
@@ -517,7 +517,7 @@
             "last_trimester_mileage_count": 500
         },
         {
-            "oid": "OID-TEST-6",
+            "uid": "UID-TEST-6",
             "vehicle_code": "7890JKL",
             "license_plate": "7890JKL",
             "card_expiration": "2024-04-05 00:00:00",
@@ -548,7 +548,7 @@
             "last_trimester_mileage_count": 1800
         },
         {
-            "oid": "OID-TEST-7",
+            "uid": "UID-TEST-7",
             "vehicle_code": "2345MNO",
             "license_plate": "2345MNO",
             "card_expiration": "2024-04-05 00:00:00",
@@ -579,7 +579,7 @@
             "last_trimester_mileage_count": 900
         },
         {
-            "oid": "OID-TEST-8",
+            "uid": "UID-TEST-8",
             "vehicle_code": "8901RST",
             "license_plate": "8901RST",
             "card_expiration": "2024-04-05 00:00:00",
@@ -610,7 +610,7 @@
             "last_trimester_mileage_count": 1300
         },
         {
-            "oid": "OID-TEST-9",
+            "uid": "UID-TEST-9",
             "vehicle_code": "3456UVW",
             "license_plate": "3456UVW",
             "card_expiration": "2024-04-05 00:00:00",
@@ -641,7 +641,7 @@
             "last_trimester_mileage_count": 400
         },
         {
-            "oid": "OID-TEST-10",
+            "uid": "UID-TEST-10",
             "vehicle_code": "6789XYZ",
             "license_plate": "6789XYZ",
             "card_expiration": "2024-04-05 00:00:00",
@@ -672,7 +672,7 @@
             "last_trimester_mileage_count": 2000
         },
         {
-            "oid": "OID-TEST-11",
+            "uid": "UID-TEST-11",
             "vehicle_code": "2345ABC",
             "license_plate": "2345ABC",
             "card_expiration": "2024-04-05 00:00:00",
@@ -703,7 +703,7 @@
             "last_trimester_mileage_count": 1000
         },
         {
-            "oid": "OID-TEST-12",
+            "uid": "UID-TEST-12",
             "vehicle_code": "7890DEF",
             "license_plate": "7890DEF",
             "card_expiration": "2024-04-05 00:00:00",
@@ -734,7 +734,7 @@
             "last_trimester_mileage_count": 1600
         },
         {
-            "oid": "OID-TEST-13",
+            "uid": "UID-TEST-13",
             "vehicle_code": "4567GHI",
             "license_plate": "4567GHI",
             "card_expiration": "2024-04-05 00:00:00",
@@ -765,7 +765,7 @@
             "last_trimester_mileage_count": 700
         },
         {
-            "oid": "OID-TEST-14",
+            "uid": "UID-TEST-14",
             "vehicle_code": "8901JKL",
             "license_plate": "8901JKL",
             "card_expiration": "2024-04-05 00:00:00",
@@ -796,7 +796,7 @@
             "last_trimester_mileage_count": 1900
         },
         {
-            "oid": "OID-TEST-15",
+            "uid": "UID-TEST-15",
             "vehicle_code": "1234MNO",
             "license_plate": "1234MNO",
             "card_expiration": "2024-04-05 00:00:00",
@@ -827,7 +827,7 @@
             "last_trimester_mileage_count": 300
         },
         {
-            "oid": "OID-TEST-16",
+            "uid": "UID-TEST-16",
             "vehicle_code": "5678PQR",
             "license_plate": "5678PQR",
             "card_expiration": "2024-04-05 00:00:00",
@@ -858,7 +858,7 @@
             "last_trimester_mileage_count": 1700
         },
         {
-            "oid": "OID-TEST-17",
+            "uid": "UID-TEST-17",
             "vehicle_code": "9876STU",
             "license_plate": "9876STU",
             "card_expiration": "2024-04-05 00:00:00",
@@ -889,7 +889,7 @@
             "last_trimester_mileage_count": 2200
         },
         {
-            "oid": "OID-TEST-18",
+            "uid": "UID-TEST-18",
             "vehicle_code": "2345VWX",
             "license_plate": "2345VWX",
             "card_expiration": "2024-04-05 00:00:00",
@@ -920,7 +920,7 @@
             "last_trimester_mileage_count": 2100
         },
         {
-            "oid": "OID-TEST-19",
+            "uid": "UID-TEST-19",
             "vehicle_code": "6789YZA",
             "license_plate": "6789YZA",
             "card_expiration": "2024-04-05 00:00:00",
@@ -951,7 +951,7 @@
             "last_trimester_mileage_count": 2500
         },
         {
-            "oid": "OID-TEST-20",
+            "uid": "UID-TEST-20",
             "vehicle_code": "3456BCD",
             "license_plate": "3456BCD",
             "card_expiration": "2024-04-05 00:00:00",
@@ -982,7 +982,7 @@
             "last_trimester_mileage_count": 2300
         },
         {
-            "oid": "OID-TEST-21",
+            "uid": "UID-TEST-21",
             "vehicle_code": "7890EFG",
             "license_plate": "7890EFG",
             "card_expiration": "2024-04-05 00:00:00",
@@ -1013,7 +1013,7 @@
             "last_trimester_mileage_count": 400000
         },
         {
-            "oid": "OID-TEST-22",
+            "uid": "UID-TEST-22",
             "vehicle_code": "1234HIJ",
             "license_plate": "1234HIJ",
             "card_expiration": "2024-04-05 00:00:00",
@@ -1044,7 +1044,7 @@
             "last_trimester_mileage_count": 2400
         },
         {
-            "oid": "OID-TEST-23",
+            "uid": "UID-TEST-23",
             "vehicle_code": "5678KLM",
             "license_plate": "5678KLM",
             "card_expiration": "2024-04-05 00:00:00",
@@ -1075,7 +1075,7 @@
             "last_trimester_mileage_count": 3000
         },
         {
-            "oid": "OID-TEST-24",
+            "uid": "UID-TEST-24",
             "vehicle_code": "9876NOP",
             "license_plate": "9876NOP",
             "card_expiration": "2024-04-05 00:00:00",
@@ -1106,7 +1106,7 @@
             "last_trimester_mileage_count": 2600
         },
         {
-            "oid": "OID-TEST-25",
+            "uid": "UID-TEST-25",
             "vehicle_code": "2345QRS",
             "license_plate": "2345QRS",
             "card_expiration": "2024-04-05 00:00:00",
@@ -1137,7 +1137,7 @@
             "last_trimester_mileage_count": 3300
         },
         {
-            "oid": "OID-TEST-26",
+            "uid": "UID-TEST-26",
             "vehicle_code": "6789TUV",
             "license_plate": "6789TUV",
             "card_expiration": "2024-04-05 00:00:00",
@@ -1168,7 +1168,7 @@
             "last_trimester_mileage_count": 1000
         },
         {
-            "oid": "OID-TEST-27",
+            "uid": "UID-TEST-27",
             "vehicle_code": "3456WXY",
             "license_plate": "3456WXY",
             "card_expiration": "2024-04-05 00:00:00",
@@ -1199,7 +1199,7 @@
             "last_trimester_mileage_count": 3600
         },
         {
-            "oid": "OID-TEST-28",
+            "uid": "UID-TEST-28",
             "vehicle_code": "8901ZAB",
             "license_plate": "8901ZAB",
             "card_expiration": "2024-04-05 00:00:00",
@@ -1230,7 +1230,7 @@
             "last_trimester_mileage_count": 3400
         },
         {
-            "oid": "OID-TEST-29",
+            "uid": "UID-TEST-29",
             "vehicle_code": "1234CDE",
             "license_plate": "1234CDE",
             "card_expiration": "2024-04-05 00:00:00",
@@ -1261,7 +1261,7 @@
             "last_trimester_mileage_count": 3800
         },
         {
-            "oid": "OID-TEST-30",
+            "uid": "UID-TEST-30",
             "vehicle_code": "5678FGH",
             "license_plate": "5678FGH",
             "card_expiration": "2024-04-05 00:00:00",

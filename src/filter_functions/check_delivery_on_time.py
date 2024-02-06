@@ -23,7 +23,8 @@ def check_delivery_on_time(order, vehicle):
     # TODO: Tenemos el tiempo total de ruta pero no sabemos si usar el tiempo actual o otro tiempo para ver si llega a tiempo
 
     # now = datetime.now()
-    now = datetime.strptime("2024-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
+    now = datetime.strptime("2024-01-01T00:00:00.000Z",
+                            "%Y-%m-%dT%H:%M:%S.%fZ")
     deadline_date = order.deadline_date
 
     condition = now + timedelta(minutes=total_time_minutes) <= deadline_date

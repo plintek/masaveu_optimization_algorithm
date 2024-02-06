@@ -26,7 +26,10 @@ def execute_optimization(data):
 
     if not scored_vehicles:
         print("No vehicles available")
-        return
+        return {
+            "vehicle_list": [],
+            "best_vehicle": None
+        }
 
     best_vehicle = scored_vehicles[0]
 

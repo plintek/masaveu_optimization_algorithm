@@ -8,30 +8,30 @@ from src.entities.order import Order
 class Vehicle:
     """Vehicle entity class"""
 
-    def __init__(self, oid, vehicle_code, license_plate, card_expiration, permission_expiration, itv_expiration, insurance_expiration, extinguisher_expiration, waste_expiration, pressure_expiration, compressor_expiration, suspension_expiration, tachograph_expiration, active, mileage, hours, gross_vehicle_weight, tare_weight, truck_type_name, assigned_pex, geolocation, last_trimester_order_count, last_trimester_mileage_count, height, can_go_international):
-        self.oid = oid
+    def __init__(self, uid, vehicle_code, license_plate, card_expiration, permission_expiration, itv_expiration, insurance_expiration, extinguisher_expiration, waste_expiration, pressure_expiration, compressor_expiration, suspension_expiration, tachograph_expiration, active, mileage, hours, gross_vehicle_weight, tare_weight, truck_type_name, assigned_pex, geolocation, last_trimester_order_count, last_trimester_mileage_count, height, can_go_international):
+        self.uid = uid
         self.vehicle_code = vehicle_code
         self.license_plate = license_plate
         self.card_expiration = datetime.strptime(
-            card_expiration, "%Y-%m-%d %H:%M:%S") if card_expiration else None
+            card_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if card_expiration else None
         self.permission_expiration = datetime.strptime(
-            permission_expiration, "%Y-%m-%d %H:%M:%S") if permission_expiration else None
+            permission_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if permission_expiration else None
         self.itv_expiration = datetime.strptime(
-            itv_expiration, "%Y-%m-%d %H:%M:%S") if itv_expiration else None
+            itv_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if itv_expiration else None
         self.insurance_expiration = datetime.strptime(
-            insurance_expiration, "%Y-%m-%d %H:%M:%S") if insurance_expiration else None
+            insurance_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if insurance_expiration else None
         self.extinguisher_expiration = datetime.strptime(
-            extinguisher_expiration, "%Y-%m-%d %H:%M:%S") if extinguisher_expiration else None
+            extinguisher_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if extinguisher_expiration else None
         self.waste_expiration = datetime.strptime(
-            waste_expiration, "%Y-%m-%d %H:%M:%S") if waste_expiration else None
+            waste_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if waste_expiration else None
         self.pressure_expiration = datetime.strptime(
-            pressure_expiration, "%Y-%m-%d %H:%M:%S") if pressure_expiration else None
+            pressure_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if pressure_expiration else None
         self.compressor_expiration = datetime.strptime(
-            compressor_expiration, "%Y-%m-%d %H:%M:%S") if compressor_expiration else None
+            compressor_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if compressor_expiration else None
         self.suspension_expiration = datetime.strptime(
-            suspension_expiration, "%Y-%m-%d %H:%M:%S") if suspension_expiration else None
+            suspension_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if suspension_expiration else None
         self.tachograph_expiration = datetime.strptime(
-            tachograph_expiration, "%Y-%m-%d %H:%M:%S") if tachograph_expiration else None
+            tachograph_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if tachograph_expiration else None
         self.active = active
         self.mileage = mileage
         self.hours = hours
@@ -49,28 +49,28 @@ class Vehicle:
         self.will_be_in_geographic_zone = False
 
     def __str__(self):
-        return f'{self.oid} con matrícula {self.license_plate}'
+        return f'{self.uid} con matrícula {self.license_plate}'
 
     def __repr__(self):
-        return f'{self.oid} con matrícula {self.license_plate}: {round(self.score, 4)} points{self.will_be_in_geographic_zone and " GEOGRAPHIC PRIORITY" or ""}'
+        return f'{self.uid} con matrícula {self.license_plate}: {round(self.score, 4)} points{self.will_be_in_geographic_zone and " GEOGRAPHIC PRIORITY" or ""}'
 
     # json dumps
     def to_json(self):
         """Returns the vehicle as a dictionary"""
         return {
-            "id": self.oid,
+            "id": self.uid,
             "vehicle_code": self.vehicle_code,
             "license_plate": self.license_plate,
-            "card_expiration": self.card_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.card_expiration else None,
-            "permission_expiration": self.permission_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.permission_expiration else None,
-            "itv_expiration": self.itv_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.itv_expiration else None,
-            "insurance_expiration": self.insurance_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.insurance_expiration else None,
-            "extinguisher_expiration": self.extinguisher_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.extinguisher_expiration else None,
-            "waste_expiration": self.waste_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.waste_expiration else None,
-            "pressure_expiration": self.pressure_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.pressure_expiration else None,
-            "compressor_expiration": self.compressor_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.compressor_expiration else None,
-            "suspension_expiration": self.suspension_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.suspension_expiration else None,
-            "tachograph_expiration": self.tachograph_expiration.strftime("%Y-%m-%d %H:%M:%S") if self.tachograph_expiration else None,
+            "card_expiration": self.card_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.card_expiration else None,
+            "permission_expiration": self.permission_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.permission_expiration else None,
+            "itv_expiration": self.itv_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.itv_expiration else None,
+            "insurance_expiration": self.insurance_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.insurance_expiration else None,
+            "extinguisher_expiration": self.extinguisher_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.extinguisher_expiration else None,
+            "waste_expiration": self.waste_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.waste_expiration else None,
+            "pressure_expiration": self.pressure_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.pressure_expiration else None,
+            "compressor_expiration": self.compressor_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.compressor_expiration else None,
+            "suspension_expiration": self.suspension_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.suspension_expiration else None,
+            "tachograph_expiration": self.tachograph_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.tachograph_expiration else None,
             "active": self.active,
             "mileage": self.mileage,
             "hours": self.hours,

@@ -1,5 +1,5 @@
 {
-    "Oid": "oid",
+    "Oid": "uid",
     "CODIGO_VEHICULO": "vehicleCode",
     "MATRICULA": "licensePlate",
     "TARJETA_VTO": "cardExpiration",

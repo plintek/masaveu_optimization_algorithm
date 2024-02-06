@@ -29,7 +29,7 @@ class Order:
 
         Args:
             uid (int): The ID of the order.
-            date (str): The date of the order in the format "%Y-%m-%d %H:%M:%S".
+            date (str): The date of the order in the format "%Y-%m-%dT%H:%M:%S.%fZ".
             quantity (int): The quantity of the order.
             container (dict): The container information in JSON format.
             assigned_truck (str): The assigned truck for the order.
@@ -39,7 +39,8 @@ class Order:
             destination (dict): The destination location information in JSON format.
         """
         self.uid = uid
-        self.date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+
+        self.date = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ")
 
         self.quantity = quantity
         self.container = Container.from_json(container)
@@ -49,12 +50,12 @@ class Order:
         self.origin = Location.from_json(origin)
         self.destination = Location.from_json(destination)
         self.deadline_date = (
-            datetime.strptime(deadline_date, "%Y-%m-%d %H:%M:%S")
+            datetime.strptime(deadline_date, "%Y-%m-%dT%H:%M:%S.%fZ")
             if deadline_date
             else None
         )
         self.delivery_date = (
-            datetime.strptime(delivery_date, "%Y-%m-%d %H:%M:%S")
+            datetime.strptime(delivery_date, "%Y-%m-%dT%H:%M:%S.%fZ")
             if delivery_date
             else None
         )
