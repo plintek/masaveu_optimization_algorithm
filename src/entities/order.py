@@ -8,6 +8,7 @@ from src.entities.location import Location
 
 class Order:
     """Represents an order with an ID, order number, date, quantity, container, assigned truck, truck type, material, origin, and destination."""
+    all_orders = []
 
     def __init__(
         self,
@@ -106,22 +107,10 @@ class Order:
         }
 
     @staticmethod
-    def load_all_orders():
-        """Load all orders from the json file."""
-        with open("src/data/orders.json", "r", encoding="utf-8") as file:
-            order_json = json.load(file)
-        orders = []
-        for order in order_json:
-            orders.append(Order.from_json(order))
-        return orders
-
-    @staticmethod
-    def load_order_from_sinex(order_id, orders=None):
+    def load_order_from_sinex(order_id):
         """Load an order from the sinex file."""
-        if not orders:
-            orders = Order.load_all_orders()
         found_order = None
-        for order in orders:
+        for order in Order.all_orders:
             if order.uid == order_id:
                 found_order = order
                 break
@@ -132,11 +121,10 @@ class Order:
         return found_order
 
     @staticmethod
-    def get_order_of_vehicle(vehicle):
+    def get_orders_of_vehicle(vehicle):
         """Get all orders of a vehicle."""
-        orders = Order.load_all_orders()
         found_orders = []
-        for order in orders:
+        for order in Order.all_orders:
             if order.assigned_truck == vehicle.license_plate:
                 found_orders.append(order)
 
@@ -145,7 +133,7 @@ class Order:
     @staticmethod
     def get_last_order_of_vehicle(vehicle):
         """Get the last order of a vehicle."""
-        orders = Order.get_order_of_vehicle(vehicle)
+        orders = Order.get_orders_of_vehicle(vehicle)
         if not orders:
             return None
 

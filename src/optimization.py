@@ -9,8 +9,11 @@ from src.scorer import score_vehicles
 def execute_optimization(data):
     """ Execute the optimization process. """
     orders = [Order.from_json(order) for order in data['orders']]
+    Order.all_orders = orders
+
     order = Order.load_order_from_sinex(
-        data['input']['order_id'], orders=orders)
+        data['input']['order_id'])
+
     force_clean = data['input']['force_clean']
 
     vehicles = [Vehicle.from_json(vehicle) for vehicle in data['vehicles']]
