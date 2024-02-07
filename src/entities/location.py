@@ -28,6 +28,18 @@ class Location:
         """Create a Location object from a JSON representation."""
         return Location(**location)
 
+    def to_json(self):
+        """Return the location as a JSON representation."""
+        return {
+            "uid": self.uid,
+            "name": self.name,
+            "lat": self.lat,
+            "lon": self.lon,
+            "country": self.country,
+            "max_height": self.max_height,
+            "load_type": self.load_type
+        }
+
     def __str__(self):
         return f"ID {self.uid} ({self.name}): {self.lat}, {self.lon}"
 

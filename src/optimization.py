@@ -28,12 +28,14 @@ def execute_optimization(data):
         print("No vehicles available")
         return {
             "vehicle_list": [],
-            "best_vehicle": None
+            "best_vehicle": None,
+            'order': order.to_json()
         }
 
     best_vehicle = scored_vehicles[0]
 
     return {
         "vehicle_list": [vehicle.to_json() for vehicle in scored_vehicles],
-        "best_vehicle": best_vehicle.to_json()
+        "best_vehicle": best_vehicle.to_json(),
+        'order': order.to_json()
     }

@@ -58,7 +58,7 @@ class Vehicle:
     def to_json(self):
         """Returns the vehicle as a dictionary"""
         return {
-            "id": self.uid,
+            "uid": self.uid,
             "vehicle_code": self.vehicle_code,
             "license_plate": self.license_plate,
             "card_expiration": self.card_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.card_expiration else None,
@@ -83,7 +83,7 @@ class Vehicle:
             "last_trimester_mileage_count": self.last_trimester_mileage_count,
             "height": self.height,
             "can_go_international": self.can_go_international,
-            "score": self.score
+            "score": round(self.score, 3)
         }
 
     @staticmethod

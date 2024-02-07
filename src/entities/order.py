@@ -85,6 +85,26 @@ class Order:
             order["load_duration"] if "load_duration" in order else 0,
         )
 
+    def to_json(self):
+        """Return the order as a json object."""
+        return {
+            "uid": self.uid,
+            "date": self.date.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            "quantity": self.quantity,
+            "assigned_truck": self.assigned_truck,
+            "truck_type": self.truck_type,
+            "material": self.material,
+            "origin": self.origin.to_json(),
+            "destination": self.destination.to_json(),
+            "deadline_date": self.deadline_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            if self.deadline_date
+            else None,
+            "delivery_date": self.delivery_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            if self.delivery_date
+            else None,
+            "load_duration": self.load_duration,
+        }
+
     @staticmethod
     def load_all_orders():
         """Load all orders from the json file."""
