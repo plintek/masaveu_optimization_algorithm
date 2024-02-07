@@ -10,6 +10,9 @@ def check_delivery_on_time(order, vehicle):
     route_order = calculate_locations_with_here(
         order.origin, order.destination)
 
+    vehicle.route_to_origin = route_from_vehicle_to_origin
+    order.route = route_order
+
     duration_from_vehicle_to_origin = route_from_vehicle_to_origin[
         'routes'][0]['sections'][0]['summary']['duration'] / 60
     duration_order = route_order['routes'][0]['sections'][0]['summary']['duration'] / 60

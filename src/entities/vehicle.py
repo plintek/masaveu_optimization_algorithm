@@ -47,6 +47,7 @@ class Vehicle:
 
         self.score = 0
         self.will_be_in_geographic_zone = False
+        self.route_to_origin = None
 
     def __str__(self):
         return f'{self.uid} con matrícula {self.license_plate}'
@@ -84,7 +85,8 @@ class Vehicle:
             "last_trimester_mileage_count": self.last_trimester_mileage_count,
             "height": self.height,
             "can_go_international": self.can_go_international,
-            "score": round(self.score, 3)
+            "score": round(self.score, 3),
+            "route_to_origin": json.dumps(self.route_to_origin) if self.route_to_origin else None,
         }
 
     @staticmethod

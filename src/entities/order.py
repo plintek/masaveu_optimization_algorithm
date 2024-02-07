@@ -61,6 +61,7 @@ class Order:
             else None
         )
         self.load_duration = load_duration
+        self.route = None
 
     def __str__(self):
         return f"{self.uid} {self.date} {self.quantity} {self.container}"
@@ -104,6 +105,7 @@ class Order:
             if self.delivery_date
             else None,
             "load_duration": self.load_duration,
+            "route": json.dumps(self.route) if self.route else None,
         }
 
     @staticmethod
