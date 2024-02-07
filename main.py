@@ -30,22 +30,18 @@ def check_post_data(post_data):
 
 def execute_post(post_data):
     """Execute the optimization based on the post data."""
-    try:
-        # Start timer
-        start_time = time.time()
+    # Start timer
+    start_time = time.time()
 
-        # check_post_data(post_data)
+    # check_post_data(post_data)
 
-        data = execute_optimization(post_data)
+    data = execute_optimization(post_data)
 
-        # End timer
-        end_time = time.time()
-        print('Time elapsed: {}s'.format(end_time - start_time))
+    # End timer
+    end_time = time.time()
+    print('Time elapsed: {}s'.format(end_time - start_time))
 
-        return data
-
-    except Exception as e:
-        print(e)
+    return data
 
 
 class Server(BaseHTTPRequestHandler):
