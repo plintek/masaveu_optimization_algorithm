@@ -15,7 +15,7 @@ class Order:
         uid,
         date,
         quantity,
-        container,
+        # container,
         assigned_truck,
         truck_type,
         material,
@@ -44,7 +44,7 @@ class Order:
         self.date = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ")
 
         self.quantity = quantity
-        self.container = Container.from_json(container)
+        # self.container = Container.from_json(container)
         self.assigned_truck = assigned_truck
         self.truck_type = truck_type
         self.material = material
@@ -64,10 +64,10 @@ class Order:
         self.route = None
 
     def __str__(self):
-        return f"{self.uid} {self.date} {self.quantity} {self.container}"
+        return f"{self.uid} {self.date} {self.quantity}"
 
     def __repr__(self):
-        return f"{self.uid} {self.date} {self.quantity} {self.container}"
+        return f"{self.uid} {self.date} {self.quantity}"
 
     @staticmethod
     def from_json(order):
@@ -76,7 +76,7 @@ class Order:
             order["uid"],
             order["date"],
             order["quantity"],
-            order["container"],
+            # order["container"],
             order["assigned_truck"] if "assigned_truck" in order else None,
             order["truck_type"],
             order["material"],
