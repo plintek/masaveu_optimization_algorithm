@@ -1,6 +1,9 @@
 """Vehicle entity module"""
+from datetime import datetime, timedelta, timezone
 import json
-from datetime import datetime
+import hmac
+import hashlib
+import requests
 from src.entities.location import Location
 from src.entities.order import Order
 
@@ -8,10 +11,11 @@ from src.entities.order import Order
 class Vehicle:
     """Vehicle entity class"""
 
-    def __init__(self, uid, vehicle_code, license_plate, card_expiration, permission_expiration, itv_expiration, insurance_expiration, extinguisher_expiration, waste_expiration, pressure_expiration, compressor_expiration, suspension_expiration, tachograph_expiration, active, mileage, hours, gross_vehicle_weight, tare_weight, truck_type_name, assigned_pex, geolocation, last_trimester_order_count, last_trimester_mileage_count, height, can_go_international):
+    def __init__(self, uid, vehicle_code, license_plate, card_expiration, permission_expiration, itv_expiration, insurance_expiration, extinguisher_expiration, waste_expiration, pressure_expiration, compressor_expiration, suspension_expiration, tachograph_expiration, active, mileage, hours, gross_vehicle_weight, tare_weight, truck_type_name, assigned_pex, geolocation, last_trimester_order_count, last_trimester_mileage_count, height, can_go_international, jaltest=False):
         self.uid = uid
         self.vehicle_code = vehicle_code
         self.license_plate = license_plate
+        self.jaltest = jaltest
         self.card_expiration = datetime.strptime(
             card_expiration, "%Y-%m-%dT%H:%M:%S.%fZ") if card_expiration else None
         self.permission_expiration = datetime.strptime(
@@ -62,6 +66,7 @@ class Vehicle:
             "uid": self.uid,
             "vehicle_code": self.vehicle_code,
             "license_plate": self.license_plate,
+            "jaltest": self.jaltest,
             "card_expiration": self.card_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.card_expiration else None,
             "permission_expiration": self.permission_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.permission_expiration else None,
             "itv_expiration": self.itv_expiration.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if self.itv_expiration else None,
@@ -138,11 +143,59 @@ class Vehicle:
         last_vehicle_order = Order.get_last_order_of_vehicle(self)
         return last_vehicle_order and last_vehicle_order.material
 
-    def get_location(self):
-        """Returns the vehicle's location as a Location object."""
-        return Location(lat=self.geolocation['lat'], lon=self.geolocation['lon'])
+    def get_last_ocupation_date(self):
+        """Returns the last date of occupation of the vehicle."""
+        last_vehicle_order = Order.get_last_order_of_vehicle(self)
+        if last_vehicle_order and last_vehicle_order.deadline_date and last_vehicle_order.deadline_date > datetime.now():
+            return last_vehicle_order.deadline_date
+        return datetime.now()
 
     @staticmethod
     def get_total_rest_time(road_minutes):
         """Returns the total rest time in minutes based on the road minutes."""
         return round(road_minutes / (4.5*60) * 45, 0)
+
+    def get_location(self):
+        """Returns the vehicle's location as a Location object."""
+        location = Location(
+            lat=self.geolocation['lat'], lon=self.geolocation['lon'])
+        if self.jaltest:
+            try:
+                CIF = "ESA28549988"
+                matricula = self.license_plate
+
+                base_url = "https://swjttodfapi021.jaltest.com/JaltestTelematicsAPI/json"
+
+                now = datetime.now(timezone.utc)
+                date_request = str(now.isoformat(
+                    timespec="milliseconds").replace("+00:00", "Z"))
+
+                api_key = "CF00334527EACF4AE1F7651639DD77774675C133"
+                secret_key = b"2CABDB5DD09A4701F24B06AB89ED576E2111497D"
+
+                date_desde = str(
+                    (datetime.now() - timedelta(hours=24)).isoformat())
+                date_desde = date_desde[:date_desde.index('.')]
+                date_hasta = str(datetime.now().isoformat(
+                    timespec="milliseconds"))
+                date_hasta = date_hasta[:date_hasta.index('.')]
+
+                get_query = f"?CIF={CIF}&numberPlate={matricula}&startDate={date_desde}&endDate={date_hasta}"
+
+                string_to_sign = "GET" + "\n" + \
+                    f"{base_url}/vehicleGPSHistory" + "\n" + \
+                    get_query + "\n" + "" + "\n" + date_request
+
+                hashed_signature = hmac.new(secret_key, bytes(
+                    string_to_sign, 'utf-8'), hashlib.sha1)
+                signature = hashed_signature.digest().hex().upper()
+
+                response_api = requests.get(f'{base_url}/vehicleGPSHistory{get_query}', headers={
+                                            'DateRequest': date_request, 'Authorization': f'CWS {api_key}:{signature}'})
+                response = json.loads(response_api.text)
+
+                if len(response['Result']) > 0:
+                    return Location(float(response['Result'][-1]['Latitude']), float(response['Result'][-1]['Longitude']))
+            except Exception as e:
+                return location
+        return location

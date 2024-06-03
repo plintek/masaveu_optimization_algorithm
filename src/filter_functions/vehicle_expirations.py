@@ -4,4 +4,4 @@
 
 def vehicle_expirations(order, vehicle):
     """Check if the vehicle has any expirations."""
-    return vehicle.check_expirations(order.date)
+    return vehicle.check_expirations(order.deadline_date)

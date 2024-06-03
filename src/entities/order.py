@@ -7,13 +7,12 @@ from src.entities.location import Location
 
 
 class Order:
-    """Represents an order with an ID, order number, date, quantity, container, assigned truck, truck type, material, origin, and destination."""
+    """Represents an order with an ID, order number, quantity, container, assigned truck, truck type, material, origin, and destination."""
     all_orders = []
 
     def __init__(
         self,
         uid,
-        date,
         quantity,
         # container,
         assigned_truck,
@@ -21,8 +20,8 @@ class Order:
         material,
         origin,
         destination,
+        pickup_date=None,
         deadline_date=None,
-        delivery_date=None,
         load_duration=0,
     ):
         """
@@ -41,8 +40,6 @@ class Order:
         """
         self.uid = uid
 
-        self.date = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ")
-
         self.quantity = quantity
         # self.container = Container.from_json(container)
         self.assigned_truck = assigned_truck
@@ -50,31 +47,31 @@ class Order:
         self.material = material
         self.origin = Location.from_json(origin)
         self.destination = Location.from_json(destination)
+        self.pickup_date = (
+            datetime.strptime(pickup_date, "%Y-%m-%dT%H:%M:%S.%fZ")
+            if pickup_date
+            else None
+        )
         self.deadline_date = (
             datetime.strptime(deadline_date, "%Y-%m-%dT%H:%M:%S.%fZ")
             if deadline_date
             else None
         )
-        self.delivery_date = (
-            datetime.strptime(delivery_date, "%Y-%m-%dT%H:%M:%S.%fZ")
-            if delivery_date
-            else None
-        )
+
         self.load_duration = load_duration
         self.route = None
 
     def __str__(self):
-        return f"{self.uid} {self.date} {self.quantity}"
+        return f"{self.uid} {self.pickup_date} {self.deadline_date} {self.quantity}"
 
     def __repr__(self):
-        return f"{self.uid} {self.date} {self.quantity}"
+        return f"{self.uid} {self.pickup_date} {self.deadline_date} {self.quantity}"
 
     @staticmethod
     def from_json(order):
         """Create an order from a json object."""
         return Order(
             order["uid"],
-            order["date"],
             order["quantity"],
             # order["container"],
             order["assigned_truck"] if "assigned_truck" in order else None,
@@ -82,8 +79,8 @@ class Order:
             order["material"],
             order["origin"],
             order["destination"],
+            order["pickup_date"] if "pickup_date" in order else None,
             order["deadline_date"] if "deadline_date" in order else None,
-            order["delivery_date"] if "delivery_date" in order else None,
             order["load_duration"] if "load_duration" in order else 0,
         )
 
@@ -91,18 +88,17 @@ class Order:
         """Return the order as a json object."""
         return {
             "uid": self.uid,
-            "date": self.date.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "quantity": self.quantity,
             "assigned_truck": self.assigned_truck,
             "truck_type": self.truck_type,
             "material": self.material,
             "origin": self.origin.to_json(),
             "destination": self.destination.to_json(),
+            "pickup_date": self.pickup_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            if self.pickup_date
+            else None,
             "deadline_date": self.deadline_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             if self.deadline_date
-            else None,
-            "delivery_date": self.delivery_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-            if self.delivery_date
             else None,
             "load_duration": self.load_duration,
             "route": json.dumps(self.route) if self.route else None,
@@ -139,4 +135,4 @@ class Order:
         if not orders:
             return None
 
-        return max(orders, key=lambda x: x.date)
+        return max(orders, key=lambda x: x.deadline_date)

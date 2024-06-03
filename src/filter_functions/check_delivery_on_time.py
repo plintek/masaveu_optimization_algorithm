@@ -16,19 +16,19 @@ def check_delivery_on_time(order, vehicle):
     duration_from_vehicle_to_origin = route_from_vehicle_to_origin[
         'routes'][0]['sections'][0]['summary']['duration'] / 60
     duration_order = route_order['routes'][0]['sections'][0]['summary']['duration'] / 60
-    total_route_time = duration_from_vehicle_to_origin + duration_order
 
-    total_rest_time = vehicle.get_total_rest_time(total_route_time)
-    load_duration = order.load_duration
+    last_occupation_date = vehicle.get_last_ocupation_date()
+    rest_from_vehicle_to_pickup = vehicle.get_total_rest_time(
+        duration_from_vehicle_to_origin)
+    if last_occupation_date + timedelta(minutes=duration_from_vehicle_to_origin + rest_from_vehicle_to_pickup) > order.pickup_date:
+        return False
 
-    total_time_minutes = total_route_time + total_rest_time + load_duration
-
-    # TODO: Tenemos el tiempo total de ruta pero no sabemos si usar el tiempo actual o otro tiempo para ver si llega a tiempo
-
-    # now = datetime.now()
-    now = datetime.strptime("2024-01-01T00:00:00.000Z",
-                            "%Y-%m-%dT%H:%M:%S.%fZ")
     deadline_date = order.deadline_date
+    pickup_date = order.pickup_date
+    load_duration = order.load_duration
+    total_order_time = duration_order + load_duration
+    total_rest_time = vehicle.get_total_rest_time(total_order_time)
+    if pickup_date + timedelta(minutes=total_order_time + total_rest_time) > deadline_date:
+        return False
 
-    condition = now + timedelta(minutes=total_time_minutes) <= deadline_date
-    return condition
+    return True
