@@ -197,5 +197,6 @@ class Vehicle:
                 if len(response['Result']) > 0:
                     return Location(float(response['Result'][-1]['Latitude']), float(response['Result'][-1]['Longitude']))
             except Exception as e:
+                print("Error in Jaltest", e)
                 return location
         return location
