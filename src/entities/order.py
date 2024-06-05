@@ -13,6 +13,7 @@ class Order:
     def __init__(
         self,
         uid,
+        status,
         quantity,
         # container,
         assigned_truck,
@@ -41,6 +42,7 @@ class Order:
         self.uid = uid
 
         self.quantity = quantity
+        self.status = status
         # self.container = Container.from_json(container)
         self.assigned_truck = assigned_truck
         self.truck_type = truck_type
@@ -62,16 +64,17 @@ class Order:
         self.route = None
 
     def __str__(self):
-        return f"{self.uid} {self.pickup_date} {self.deadline_date} {self.quantity}"
+        return f"{self.uid} {self.pickup_date} {self.deadline_date} {self.quantity} {self.status}"
 
     def __repr__(self):
-        return f"{self.uid} {self.pickup_date} {self.deadline_date} {self.quantity}"
+        return f"{self.uid} {self.pickup_date} {self.deadline_date} {self.quantity} {self.status}"
 
     @staticmethod
     def from_json(order):
         """Create an order from a json object."""
         return Order(
             order["uid"],
+            order["status"],
             order["quantity"],
             # order["container"],
             order["assigned_truck"] if "assigned_truck" in order else None,
@@ -89,6 +92,7 @@ class Order:
         return {
             "uid": self.uid,
             "quantity": self.quantity,
+            "status": self.status,
             "assigned_truck": self.assigned_truck,
             "truck_type": self.truck_type,
             "material": self.material,
@@ -119,20 +123,22 @@ class Order:
         return found_order
 
     @staticmethod
-    def get_orders_of_vehicle(vehicle):
+    def get_orders_of_vehicle(vehicle, status):
         """Get all orders of a vehicle."""
         found_orders = []
         for order in Order.all_orders:
-            if order.assigned_truck == vehicle.license_plate:
+            if order.assigned_truck == vehicle.license_plate and (not status or order.status == status):
                 found_orders.append(order)
 
         return found_orders
 
     @staticmethod
-    def get_last_order_of_vehicle(vehicle):
+    def get_last_order_of_vehicle(vehicle, status=None):
         """Get the last order of a vehicle."""
-        orders = Order.get_orders_of_vehicle(vehicle)
+        orders = Order.get_orders_of_vehicle(vehicle, status)
         if not orders:
             return None
+
+        print(max(orders, key=lambda x: x.deadline_date))
 
         return max(orders, key=lambda x: x.deadline_date)
