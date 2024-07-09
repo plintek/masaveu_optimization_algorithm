@@ -86,10 +86,10 @@ def score_vehicles(order, vehicles):
      # Gather all scores for normalization
     scores = [vehicle.score for vehicle in vehicles]
 
-    # Normalize the scores
-    normalized_scores = normalize_scores(scores)
+    if len(scores) > 0:
+        normalized_scores = normalize_scores(scores)
 
-    for vehicle, norm_score in zip(vehicles, normalized_scores):
-        vehicle.score = norm_score
+        for vehicle, norm_score in zip(vehicles, normalized_scores):
+            vehicle.score = norm_score
 
     return vehicles
