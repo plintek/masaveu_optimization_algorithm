@@ -49,6 +49,13 @@ class ScoreFunction:
         return f"ScoreFunction(name={self.name}, func={self.func}, weight={self.weight})"
 
 
+def normalize_scores(scores):
+    min_score = min(scores)
+    max_score = max(scores)
+    if max_score == min_score:
+        return [0.5] * len(scores)  # Return 0.5 if all scores are the same
+    return [(score - min_score) / (max_score - min_score) for score in scores]
+
 def score_vehicles(order, vehicles):
     """
     Scores the vehicles based on the given order.
@@ -65,22 +72,24 @@ def score_vehicles(order, vehicles):
         ScoreFunction("last_trimester_mileage", last_trimester_mileage, 0.5),
     ]
 
-    for score_function in score_functions:
-        max_score = 0
-        scores = []
-        for vehicle in vehicles:
-            score = score_function(order=order, vehicle=vehicle)
-            scores.append(score)
-            if score > max_score:
-                max_score = score
+    for vehicle in vehicles:
+        for score_function in score_functions:
+            score_base = score_function(order=order, vehicle=vehicle)
+            for compare_vehicle in vehicles:
+                if compare_vehicle.uid == vehicle.uid:
+                    continue
 
-        count = 0
-        for vehicle in vehicles:
-            if max_score == 0:
-                vehicle.add_score(0)
-            else:
-                vehicle.add_score(
-                    (scores[count] / max_score) * score_function.weight)
-            count += 1
+                score_compare = score_function(order=order, vehicle=compare_vehicle)
+                score = score_base - score_compare
+                vehicle.add_score(score)
+
+     # Gather all scores for normalization
+    scores = [vehicle.score for vehicle in vehicles]
+
+    # Normalize the scores
+    normalized_scores = normalize_scores(scores)
+
+    for vehicle, norm_score in zip(vehicles, normalized_scores):
+        vehicle.score = norm_score
 
     return vehicles
