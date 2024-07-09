@@ -1,5 +1,4 @@
 """ This module contains the scoring functions and the scoring logic. """
-from .score_functions.distance import distance
 from .score_functions.last_trimester_orders import last_trimester_orders
 from .score_functions.last_trimester_mileage import last_trimester_mileage
 
@@ -62,9 +61,8 @@ def score_vehicles(order, vehicles):
         list: The list of vehicles with scores.
     """
     score_functions = [
-        ScoreFunction("distance", distance, 0.8),
-        ScoreFunction("last_trimester_orders", last_trimester_orders, 0.03),
-        ScoreFunction("last_trimester_mileage", last_trimester_mileage, 0.17),
+        ScoreFunction("last_trimester_orders", last_trimester_orders, 0.5),
+        ScoreFunction("last_trimester_mileage", last_trimester_mileage, 0.5),
     ]
 
     for score_function in score_functions:
