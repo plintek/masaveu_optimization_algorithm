@@ -1,4 +1,5 @@
 """ This module contains the filters to be applied to the vehicles. """
+from src.filter_functions.check_pending_orders import check_pending_orders
 from src.filter_functions.national_international import national_international
 from src.filter_functions.vehicle_expirations import vehicle_expirations
 from src.filter_functions.check_material import check_material
@@ -55,6 +56,7 @@ class Filter:
 def filter_vehicles(order, vehicles, force_clean):
     """Filter the vehicles based on the order and the force_clean flag."""
     filters = [
+        Filter("check_pending_orders", check_pending_orders),
         Filter("national_international", national_international),
         Filter("vehicle_expirations", vehicle_expirations),
         Filter("check_truck_type", check_truck_type),

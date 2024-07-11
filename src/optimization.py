@@ -16,18 +16,10 @@ def execute_optimization(data):
 
         order = Order.load_order_from_sinex(
             data['input']['order_id'])
-
-        if order.pickup_date < datetime.now():
-            return {
-                "error": "The pickup date is in the past. Please check the input data."
-            }
+     
         if order.deadline_date < datetime.now():
             return {
                 "error": "The deadline date is in the past. Please check the input data."
-            }
-        if order.deadline_date < order.pickup_date:
-            return {
-                "error": "The deadline date is before the pickup date. Please check the input data."
             }
 
         force_clean = data['input']['force_clean']

@@ -18,17 +18,12 @@ def check_delivery_on_time(order, vehicle):
     duration_order = route_order['routes'][0]['sections'][0]['summary']['duration'] / 60
 
     last_occupation_date = vehicle.get_last_ocupation_date()
-    rest_from_vehicle_to_pickup = vehicle.get_total_rest_time(
-        duration_from_vehicle_to_origin)
-    if last_occupation_date + timedelta(minutes=duration_from_vehicle_to_origin + rest_from_vehicle_to_pickup) > order.pickup_date:
-        return False
 
     deadline_date = order.deadline_date
-    pickup_date = order.pickup_date
     load_duration = order.load_duration
-    total_order_time = duration_order + load_duration
+    total_order_time = duration_from_vehicle_to_origin + duration_order + load_duration
     total_rest_time = vehicle.get_total_rest_time(total_order_time)
-    if pickup_date + timedelta(minutes=total_order_time + total_rest_time) > deadline_date:
+    if last_occupation_date + timedelta(minutes=total_order_time + total_rest_time) > deadline_date:
         return False
 
     return True

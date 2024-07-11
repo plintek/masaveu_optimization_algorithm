@@ -21,7 +21,6 @@ class Order:
         material,
         origin,
         destination,
-        pickup_date=None,
         deadline_date=None,
         load_duration=0,
     ):
@@ -49,11 +48,7 @@ class Order:
         self.material = material
         self.origin = Location.from_json(origin)
         self.destination = Location.from_json(destination)
-        self.pickup_date = (
-            datetime.strptime(pickup_date, "%Y-%m-%dT%H:%M:%S.%fZ")
-            if pickup_date
-            else None
-        )
+       
         self.deadline_date = (
             datetime.strptime(deadline_date, "%Y-%m-%dT%H:%M:%S.%fZ")
             if deadline_date
@@ -64,10 +59,10 @@ class Order:
         self.route = None
 
     def __str__(self):
-        return f"{self.uid} {self.pickup_date} {self.deadline_date} {self.quantity} {self.status}"
+        return f"{self.uid} {self.deadline_date} {self.quantity} {self.status}"
 
     def __repr__(self):
-        return f"{self.uid} {self.pickup_date} {self.deadline_date} {self.quantity} {self.status}"
+        return f"{self.uid} {self.deadline_date} {self.quantity} {self.status}"
 
     @staticmethod
     def from_json(order):
@@ -82,7 +77,6 @@ class Order:
             order["material"],
             order["origin"],
             order["destination"],
-            order["pickup_date"] if "pickup_date" in order else None,
             order["deadline_date"] if "deadline_date" in order else None,
             order["load_duration"] if "load_duration" in order else 0,
         )
@@ -98,9 +92,6 @@ class Order:
             "material": self.material,
             "origin": self.origin.to_json(),
             "destination": self.destination.to_json(),
-            "pickup_date": self.pickup_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-            if self.pickup_date
-            else None,
             "deadline_date": self.deadline_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             if self.deadline_date
             else None,
