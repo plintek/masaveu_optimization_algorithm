@@ -1,5 +1,7 @@
 from time import time
+
 import requests
+
 from src.entities.location import Location
 from src.utils.cache_utility import CacheUtility
 
@@ -8,7 +10,7 @@ def calculate_locations_with_here(start_location: Location, end_location: Locati
     """ Calculate the route between two locations with Here API """
     start_time = time()
 
-    api_key = "aNSRWTnuT9wdb-ZpmfaZ0_4Zj2Ir5WLpZaKWMI_davU"
+    api_key = "RsnfeIYEhAG0BHvBEDQnSDzrVZ5v4-nXY15fxfdl458"
 
     url = "https://router.hereapi.com/v8/routes?origin={},{}&transportMode=truck&destination={},{}&return=summary,polyline&apiKey={}".format(
         start_location.lat, start_location.lon, end_location.lat, end_location.lon, api_key)

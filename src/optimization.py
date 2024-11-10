@@ -1,55 +1,59 @@
 
 """ This module contains the optimization process. """
+from datetime import datetime
+
 from src.entities.order import Order
 from src.entities.vehicle import Vehicle
 from src.filters import filter_vehicles
 from src.scorer import score_vehicles
-
-from datetime import datetime
+from src.utils.here_utility import calculate_locations_with_here
 
 
 def execute_optimization(data):
     try:
         """ Execute the optimization process. """
-        orders = [Order.from_json(order) for order in data['orders']]
+        force_clean = data['input']['force_clean']
+        date = datetime.strptime(data['input']['date'], "%Y-%m-%d")
+        vehicles = [Vehicle.from_json(vehicle) for vehicle in data['vehicles']]
+        orders = []
+        for order in data['orders']:
+            order_object = Order.from_json(order)
+            orders.append(order_object)
+
         Order.all_orders = orders
 
-        order = Order.load_order_from_sinex(
-            data['input']['order_id'])
-     
-        if order.deadline_date < datetime.now():
-            return {
-                "error": "The deadline date is in the past. Please check the input data."
-            }
+        result = []
+        pending_orders = filter(lambda order: order.status == "pending" and order_object.deadline_date is not None and order_object.deadline_date.day == date.day and order_object.deadline_date.month == date.month and order_object.deadline_date.year == date.year, orders)
+        sorted_pending_orders = sorted(pending_orders, key=lambda order: (not order.is_external))
+        for order in sorted_pending_orders:
+            route_order = calculate_locations_with_here(order.origin, order.destination)
+            order.route = route_order
 
-        force_clean = data['input']['force_clean']
+            filtered_vehicles = filter_vehicles(order, vehicles, force_clean)
+            scored_vehicles = score_vehicles(order, filtered_vehicles)
 
-        vehicles = [Vehicle.from_json(vehicle) for vehicle in data['vehicles']]
+            # order by score from lowest to highest
+            scored_vehicles.sort(key=lambda vehicle: vehicle.score)
+            scored_vehicles.sort(
+                key=lambda vehicle: vehicle.will_be_in_geographic_zone, reverse=True)
+            
+            if not scored_vehicles:
+                print("No vehicles available")
+                result_json = order.to_json()
+                result_json['best_vehicle'] = None
+                result_json['vehicles'] = []
+                result.append(result_json)
+                continue
 
-        filtered_vehicles = filter_vehicles(order, vehicles, force_clean)
+            best_vehicle = scored_vehicles[0]
 
-        scored_vehicles = score_vehicles(order, filtered_vehicles)
+            order.assigned_truck = best_vehicle.license_plate
+            result_json = order.to_json()
+            result_json['best_vehicle'] = best_vehicle.to_json()
+            result_json['vehicles'] = [vehicle.to_json() for vehicle in scored_vehicles]
+            result.append(result_json)
 
-        # order by score from lowest to highest
-        scored_vehicles.sort(key=lambda vehicle: vehicle.score)
-        scored_vehicles.sort(
-            key=lambda vehicle: vehicle.will_be_in_geographic_zone, reverse=True)
-
-        if not scored_vehicles:
-            print("No vehicles available")
-            return {
-                "vehicle_list": [],
-                "best_vehicle": None,
-                'order': order.to_json()
-            }
-
-        best_vehicle = scored_vehicles[0]
-
-        return {
-            "vehicle_list": [vehicle.to_json() for vehicle in scored_vehicles],
-            "best_vehicle": best_vehicle.to_json(),
-            'order': order.to_json()
-        }
+        return result
     except Exception as e:
         print(e)
         return {

@@ -1,5 +1,6 @@
 """ This module contains the distance score function. It calculates the distance between the vehicle and the order's origin. """
 from datetime import datetime, timedelta
+
 from src.utils.here_utility import calculate_locations_with_here
 
 
@@ -7,11 +8,9 @@ def check_delivery_on_time(order, vehicle):
     """ This function calculates the distance between the vehicle and the order's origin."""
     route_from_vehicle_to_origin = calculate_locations_with_here(
         vehicle.get_location(), order.origin)
-    route_order = calculate_locations_with_here(
-        order.origin, order.destination)
 
     vehicle.route_to_origin = route_from_vehicle_to_origin
-    order.route = route_order
+    route_order = order.route
 
     duration_from_vehicle_to_origin = route_from_vehicle_to_origin[
         'routes'][0]['sections'][0]['summary']['duration'] / 60

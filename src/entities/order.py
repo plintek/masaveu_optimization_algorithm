@@ -2,6 +2,7 @@
 
 import json
 from datetime import datetime
+
 from src.entities.container import Container
 from src.entities.location import Location
 
@@ -17,6 +18,7 @@ class Order:
         quantity,
         # container,
         assigned_truck,
+        is_external,
         truck_type,
         material,
         origin,
@@ -44,6 +46,7 @@ class Order:
         self.status = status
         # self.container = Container.from_json(container)
         self.assigned_truck = assigned_truck
+        self.is_external = is_external
         self.truck_type = truck_type
         self.material = material
         self.origin = Location.from_json(origin)
@@ -73,6 +76,7 @@ class Order:
             order["quantity"],
             # order["container"],
             order["assigned_truck"] if "assigned_truck" in order else None,
+            order["is_external"] if "is_external" in order else False,
             order["truck_type"],
             order["material"],
             order["origin"],
@@ -88,6 +92,7 @@ class Order:
             "quantity": self.quantity,
             "status": self.status,
             "assigned_truck": self.assigned_truck,
+            "is_external": self.is_external,
             "truck_type": self.truck_type,
             "material": self.material,
             "origin": self.origin.to_json(),
