@@ -55,6 +55,8 @@ class Vehicle:
         self.will_be_in_geographic_zone = False
         self.route_to_origin = None
 
+        self.total_distance = 0
+
     def __str__(self):
         return f'{self.uid} con matrícula {self.license_plate}'
 
@@ -206,3 +208,11 @@ class Vehicle:
                 print("Error in Jaltest", e)
                 return location
         return location
+    
+    def reset_total_distance(self):
+        self.total_distance = 0
+
+    @staticmethod
+    def reset_all_total_distance(vehicles):
+        for vehicle in vehicles:
+            vehicle.reset_total_distance()

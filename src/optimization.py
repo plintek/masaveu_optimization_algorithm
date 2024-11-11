@@ -9,6 +9,20 @@ from src.scorer import score_vehicles
 from src.utils.here_utility import calculate_locations_with_here
 
 
+def execute_order_optimization(order, vehicles, force_clean, date, use_pending_orders=False):
+    route_order = calculate_locations_with_here(order.origin, order.destination)
+    order.route = route_order
+
+    filtered_vehicles = filter_vehicles(order, vehicles, force_clean, check_date=date, use_pending_orders=use_pending_orders)
+    scored_vehicles = score_vehicles(order, filtered_vehicles)
+
+    # order by score from lowest to highest
+    scored_vehicles.sort(key=lambda vehicle: vehicle.score)
+    scored_vehicles.sort(
+        key=lambda vehicle: vehicle.will_be_in_geographic_zone, reverse=True)
+      
+    return scored_vehicles
+
 def execute_optimization(data):
     try:
         """ Execute the optimization process. """
@@ -26,17 +40,13 @@ def execute_optimization(data):
         pending_orders = filter(lambda order: order.status == "pending" and order_object.deadline_date is not None and order_object.deadline_date.day == date.day and order_object.deadline_date.month == date.month and order_object.deadline_date.year == date.year, orders)
         sorted_pending_orders = sorted(pending_orders, key=lambda order: (not order.is_external))
         for order in sorted_pending_orders:
-            route_order = calculate_locations_with_here(order.origin, order.destination)
-            order.route = route_order
-
-            filtered_vehicles = filter_vehicles(order, vehicles, force_clean, check_date=date)
-            scored_vehicles = score_vehicles(order, filtered_vehicles)
-
-            # order by score from lowest to highest
-            scored_vehicles.sort(key=lambda vehicle: vehicle.score)
-            scored_vehicles.sort(
-                key=lambda vehicle: vehicle.will_be_in_geographic_zone, reverse=True)
+            Vehicle.reset_all_total_distance(vehicles)
+            scored_vehicles = execute_order_optimization(order, vehicles, force_clean, date)
             
+            if not scored_vehicles:
+                Vehicle.reset_all_total_distance(vehicles)
+                scored_vehicles = execute_order_optimization(order, vehicles, force_clean, date, use_pending_orders=True)
+
             if not scored_vehicles:
                 print("No vehicles available")
                 result_json = order.to_json()
@@ -53,10 +63,12 @@ def execute_optimization(data):
             result_json['vehicles'] = [vehicle.to_json() for vehicle in scored_vehicles]
             result.append(result_json)
 
-            Order.update_order(order, best_vehicle)
+            best_vehicle.last_trimester_order_count += 1
+            best_vehicle.last_trimester_mileage_count += best_vehicle.total_distance
 
-
+        
         return result
+
     except Exception as e:
         print(e)
         return {

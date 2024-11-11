@@ -2,7 +2,7 @@
 from haversine import haversine
 
 
-def check_geographic_zone(vehicle, order, check_date):
+def check_geographic_zone(vehicle, order, check_date, use_pending_orders):
     """Check if the vehicle can travel to the order's location."""
     max_distance = 50  # in km
     is_on_the_way_to_origin_pex = False

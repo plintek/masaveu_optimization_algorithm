@@ -135,17 +135,16 @@ class Order:
         if not orders:
             return None
 
-        print(max(orders, key=lambda x: x.deadline_date))
+        last_order = max(orders, key=lambda x: x.deadline_date)
 
-        return max(orders, key=lambda x: x.deadline_date)
+        return last_order
     
     @staticmethod
     def update_order(order, vehicle):
         """Update the order with the vehicle."""
         index = 0
-        # for order in Order.all_orders:
-        #     if order.uid == order.uid:
-        #         order.assigned_truck = vehicle.license_plate
-            #     Order.all_orders[index] = order
-
-            # index = index + 1
+        for order in Order.all_orders:
+            if order.uid == order.uid:
+                order.assigned_truck = vehicle.license_plate
+                Order.all_orders[index] = order
+            index = index + 1
