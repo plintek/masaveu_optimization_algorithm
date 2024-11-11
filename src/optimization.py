@@ -44,10 +44,6 @@ def execute_optimization(data):
             scored_vehicles = execute_order_optimization(order, vehicles, force_clean, date)
             
             if not scored_vehicles:
-                Vehicle.reset_all_total_distance(vehicles)
-                scored_vehicles = execute_order_optimization(order, vehicles, force_clean, date, use_pending_orders=True)
-
-            if not scored_vehicles:
                 print("No vehicles available")
                 result_json = order.to_json()
                 result_json['best_vehicle'] = None
