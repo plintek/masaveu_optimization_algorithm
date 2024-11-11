@@ -29,7 +29,7 @@ def execute_optimization(data):
             route_order = calculate_locations_with_here(order.origin, order.destination)
             order.route = route_order
 
-            filtered_vehicles = filter_vehicles(order, vehicles, force_clean)
+            filtered_vehicles = filter_vehicles(order, vehicles, force_clean, check_date=date)
             scored_vehicles = score_vehicles(order, filtered_vehicles)
 
             # order by score from lowest to highest
@@ -52,6 +52,9 @@ def execute_optimization(data):
             result_json['best_vehicle'] = best_vehicle.to_json()
             result_json['vehicles'] = [vehicle.to_json() for vehicle in scored_vehicles]
             result.append(result_json)
+
+            Order.update_order(order, best_vehicle)
+
 
         return result
     except Exception as e:

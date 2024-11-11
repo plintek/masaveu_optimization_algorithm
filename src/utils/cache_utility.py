@@ -1,14 +1,15 @@
 import json
-import redis
 import pickle
+
+import redis
 
 types = ["routes", "here"]
 is_in_local = True
 enable_cache = True
 
 host = "localhost" if is_in_local else "cache"
-here_cache = redis.Redis(host=host, port=6379, db=0)
-routes_cache = redis.Redis(host=host, port=6379, db=1)
+here_cache = redis.Redis(host=host, port=6380, db=0)
+routes_cache = redis.Redis(host=host, port=6380, db=1)
 
 expiration_time = 600000
 

@@ -1,9 +1,11 @@
 """Vehicle entity module"""
-from datetime import datetime, timedelta, timezone
-import json
-import hmac
 import hashlib
+import hmac
+import json
+from datetime import datetime, timedelta, timezone
+
 import requests
+
 from src.entities.location import Location
 from src.entities.order import Order
 
@@ -145,11 +147,10 @@ class Vehicle:
 
     def get_last_ocupation_date(self):
         """Returns the last date of occupation of the vehicle."""
-        # last_vehicle_order = Order.get_last_order_of_vehicle(
-        #     self, status="pending")
-        # if last_vehicle_order and last_vehicle_order.deadline_date and last_vehicle_order.deadline_date > datetime.now():
-        #     return last_vehicle_order.deadline_date
-        return datetime.now()
+        last_vehicle_order = Order.get_last_order_of_vehicle(
+            self, status="pending")
+        if last_vehicle_order and last_vehicle_order.deadline_date:
+            return last_vehicle_order.deadline_date
 
     def has_pending_orders(self):
         """Returns True if the vehicle has pending orders, False otherwise."""

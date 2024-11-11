@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from src.utils.here_utility import calculate_locations_with_here
 
 
-def check_delivery_on_time(order, vehicle):
+def check_delivery_on_time(order, vehicle, check_date):
     """ This function calculates the distance between the vehicle and the order's origin."""
     route_from_vehicle_to_origin = calculate_locations_with_here(
         vehicle.get_location(), order.origin)
@@ -17,6 +17,8 @@ def check_delivery_on_time(order, vehicle):
     duration_order = route_order['routes'][0]['sections'][0]['summary']['duration'] / 60
 
     last_occupation_date = vehicle.get_last_ocupation_date()
+    if not last_occupation_date:
+        last_occupation_date = check_date
 
     deadline_date = order.deadline_date
     load_duration = order.load_duration

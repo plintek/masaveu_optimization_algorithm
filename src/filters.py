@@ -1,12 +1,12 @@
 """ This module contains the filters to be applied to the vehicles. """
+from src.filter_functions.check_delivery_on_time import check_delivery_on_time
+from src.filter_functions.check_geographic_zone import check_geographic_zone
+from src.filter_functions.check_locations_constraints import check_locations_constraints
+from src.filter_functions.check_material import check_material
 from src.filter_functions.check_pending_orders import check_pending_orders
+from src.filter_functions.check_truck_type import check_truck_type
 from src.filter_functions.national_international import national_international
 from src.filter_functions.vehicle_expirations import vehicle_expirations
-from src.filter_functions.check_material import check_material
-from src.filter_functions.check_truck_type import check_truck_type
-from src.filter_functions.check_locations_constraints import check_locations_constraints
-from src.filter_functions.check_geographic_zone import check_geographic_zone
-from src.filter_functions.check_delivery_on_time import check_delivery_on_time
 
 
 class Filter:
@@ -53,7 +53,7 @@ class Filter:
         return f"Filter(name={self.name}, func={self.func})"
 
 
-def filter_vehicles(order, vehicles, force_clean):
+def filter_vehicles(order, vehicles, force_clean, check_date):
     """Filter the vehicles based on the order and the force_clean flag."""
     filters = [
         Filter("check_pending_orders", check_pending_orders),
@@ -72,7 +72,7 @@ def filter_vehicles(order, vehicles, force_clean):
     filtered_vehicles = []
     for vehicle in vehicles:
         for filter_function in filters:
-            if not filter_function(order=order, vehicle=vehicle):
+            if not filter_function(order=order, vehicle=vehicle, check_date=check_date):
                 print(
                     f"DEUBG: El vehículo {vehicle} no cumple con el filtro {filter_function}")
                 break
